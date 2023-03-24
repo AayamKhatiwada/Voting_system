@@ -6,6 +6,7 @@ import About from "./pages/about";
 import Contactus from "./pages/contactus";
 import { ToastContainer } from 'react-toastify';
 import VoteParty from "./pages/vote-party";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="signIn" element={<SignInPage />} />
           <Route path="register" element={<Register />} />
           <Route path="vote-party" element={<VoteParty />} />
+          <Route path="profile" element={<UserProfile />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />
