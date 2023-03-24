@@ -1,0 +1,39 @@
+body {
+    font-family: 'Source Code Pro', monospace;
+    font-weight: bold;
+}
+
+.home-body {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 80px;
+}
+
+.home-left-part {
+    width: 60%;
+    padding: 0px 50px;
+    text-align: center;
+}
+
+.home-title {
+    word-spacing: 1rem;
+    font-family: 'Hanuman', serif !important;
+    font-size: 52px;
+    margin: 50px 0;
+}
+
+.home-image {
+    text-align: center;
+}
+
+.home-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.home-buttons>button {
+    padding: 5px 45px;
+    border-radius: 32px;
+    font-size: 20px;
+}

@@ -1,0 +1,19 @@
+.about-main {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 6rem;
+}
+
+.about-left-side {
+    Width: 50%;
+    padding: 2rem 12rem 0px 2rem;
+}
+
+.about-heading {
+    font-size: 40px;
+    margin-bottom: 3rem;
+}
+
+.about-desc{
+    font-size: 20px;
+}

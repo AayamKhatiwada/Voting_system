@@ -1,0 +1,58 @@
+.contact-main {
+    margin: 1rem 22rem;
+    display: flex;
+    border: 1px solid black;
+    overflow: hidden;
+    border-radius: 50px;
+}
+
+.contact-left-side {
+    width: 90%;
+    padding: 3rem 20rem 4rem 10rem;
+}
+
+.contact-title {
+    font-size: 45px;
+    padding: 10px 0px;
+}
+
+.contact-touch {
+    color: #366ff4;
+}
+
+.contact-desc {
+    width: 80%;
+    padding-bottom: 20px;
+}
+
+.contact-text-field {
+    margin-bottom: 20px !important;
+    width: 100%;
+}
+
+.contact-items {
+    display: flex;
+    justify-content: space-between;
+}
+
+.contact-item {
+    display: flex;
+}
+
+.contact-item svg {
+    margin: 1rem 0 0 0;
+}
+
+.contact-item-detail {
+    padding: 0px 10px;
+}
+
+.contact-image {
+    position: relative;
+    left: -18rem;
+    top: 10rem;
+}
+
+.contact-right-side {
+    background-color: #03039d;
+}

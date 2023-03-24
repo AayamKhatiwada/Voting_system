@@ -1,0 +1,35 @@
+.nav-title {
+    font-family: 'Poppins', sans-serif;
+    color: #0090DC;
+    padding: 100px 0px;
+}
+
+.nav-title:hover {
+    color: rgb(71, 71, 255);
+    text-decoration: none;
+}
+
+.nav-full {
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar-nav>li>a>h4 {
+    color: black;
+}
+
+.navbar-nav>li>a>h4:hover {
+    text-decoration: none;
+    color: rgb(71, 71, 255);
+}
+
+.user-image {
+    background-color: #3B9CEA;
+    color: #fff;
+    width: 43px;
+    height: 43px;
+    font-size: 25px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 43px;
+  }
