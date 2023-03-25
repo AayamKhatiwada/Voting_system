@@ -1,29 +1,94 @@
+import axios from "axios";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ErrorNoty, SuccessNoty } from "../Reuseables/notifications";
+import { setCurrentUser } from "../store/user/user-action";
+import { selectCurrentUser } from "../store/user/user-selector";
 import NavigateComponent from "./navigateComponent";
 import './userProfileComponent.css'
 
 const UserProfileComponent = () => {
 
-    const [fname, setFname] = useState('');
-    const [lname, setLname] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [cpassword, setCpassword] = useState('');
-    const [province, setProvince] = useState('one');
-    const [contact, setContact] = useState('');
-    const [citizennum, setCitizennum] = useState('');
-    const [gender, setGender] = useState('male');
+    const user = useSelector(selectCurrentUser);
+    const dispatch = useDispatch()
+    const accessToken = localStorage.getItem('accessToken');
+
+    const [fname, setFname] = useState(user.firstName);
+    const [lname, setLname] = useState(user.lastName);
+    const [email, setEmail] = useState(user.email);
+    const [province, setProvince] = useState(user.province);
+    const [contact, setContact] = useState(user.phoneNumber);
+    const [citizennum, setCitizennum] = useState(user.citizenNumber);
+    const [gender, setGender] = useState(user.gender);
 
     const [errorFname, setErrorFname] = useState(false);
     const [errorLname, setErrorLname] = useState(false);
     const [errorEmail, setErrorEmail] = useState(false);
-    const [errorPassword, setErrorPassword] = useState(false);
-    const [errorCpassword, setErrorCpassword] = useState(false);
     const [errorContact, setErrorContact] = useState(false);
     const [errorCitizennum, setErrorCitizennum] = useState(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
+        if (!fname || fname[0] === " ") {
+            setErrorFname(true)
+        } else {
+            setErrorFname(false)
+        }
+
+        if (!lname || lname[0] === " ") {
+            setErrorLname(true)
+        } else {
+            setErrorLname(false)
+        }
+
+        if (!email || email[0] === " ") {
+            setErrorEmail(true)
+        } else {
+            setErrorEmail(false)
+        }
+
+        if (!contact || contact[0] === " ") {
+            setErrorContact(true)
+        } else {
+            setErrorContact(false)
+        }
+
+        if (!citizennum || citizennum[0] === " ") {
+            setErrorCitizennum(true)
+        } else {
+            setErrorCitizennum(false)
+        }
+
+        if (!fname || fname[0] === " " ||
+            !lname || lname[0] === " " ||
+            !email || email[0] === " " ||
+            !contact || contact[0] === " " ||
+            !citizennum || citizennum[0] === " "
+        ) {
+            console.log(province, gender)
+            alert("Please fill all the field properly")
+        }
+        else {
+            await axios.put(`/user/${user._id}`, {
+                firstName: fname,
+                lastName: lname,
+                email,
+                province,
+                phoneNumber: contact,
+                citizenNumber: citizennum,
+                gender
+            }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            }).then((response) => {
+                SuccessNoty("Data updated successfully");
+                dispatch(setCurrentUser(response.data));
+            }).catch((error) => {
+                console.error(error);
+                ErrorNoty(error.response.data);
+            });
+        }
     }
 
     return (
@@ -39,7 +104,7 @@ const UserProfileComponent = () => {
                             <img src="https://randomwordgenerator.com/img/picture-generator/chair-1840011_640.jpg" alt="" />
                         </div>
                         <div className="profile-left-name">
-                            Bises Adk
+                            {user.firstName + ' ' + user.lastName}
                         </div>
                     </div>
                     <div className="profile-right col-sm-7">
@@ -82,34 +147,6 @@ const UserProfileComponent = () => {
                             {
                                 errorEmail === true && (
                                     <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
-                        </div>
-                        <div className="profile-right-textbox">
-                            <div className="col-sm-6">Password</div>
-                            <input type="password"
-                                placeholder="Please enter your password"
-                                className="input-box rounded"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            {
-                                errorPassword === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
-                        </div>
-                        <div className="profile-right-textbox">
-                            <div className="col-sm-6">Confirm Password</div>
-                            <input type="password"
-                                placeholder="Please enter your password"
-                                className="input-box rounded"
-                                value={cpassword}
-                                onChange={(e) => setCpassword(e.target.value)}
-                            />
-                            {
-                                errorCpassword === true && (
-                                    <div className="register-error-message">Password and Confirm password doesnot match</div>
                                 )
                             }
                         </div>

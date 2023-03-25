@@ -2,19 +2,19 @@ import "./homeComponent.css"
 import HomeImage from '../assets/home-image.png'
 import { useNavigate } from "react-router-dom";
 import NavigateComponent from "./navigateComponent";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../store/user/user-selector";
-import { setCurrentUser } from "../store/user/user-action";
 import { useEffect } from "react";
+import axios from "axios";
+import { setCurrentUser } from "../store/user/user-action";
 
 const HomeComponent = () => {
 
     const user = useSelector(selectCurrentUser);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const accessToken = localStorage.getItem('accessToken');
-    const navigate = useNavigate();
-    
+
     const changeToSignIn = () => {
         navigate("/signIn");
     }
@@ -38,9 +38,8 @@ const HomeComponent = () => {
                 });
         }
         accessToken !== null && getUserData()
-    }, [accessToken])
+    }, [accessToken, dispatch])
 
-    // console.log(user)
     return (
         <>
             <NavigateComponent />
