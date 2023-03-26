@@ -31,13 +31,12 @@ const NavigateComponent = () => {
                         {
                             user.length !== 0 &&
                             <>
-
                                 <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <div className="user-image">{user.firstName[0]}</div>
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <li onClick={() => navigate('/profile')} className=""><a><h4>View profile</h4></a></li>
+                                        <li onClick={() => navigate('/profile')} ><a><h4>View profile</h4></a></li>
                                         <li onClick={logout}><a><h4>Log Out</h4></a></li>
                                     </ul>
                                 </li>

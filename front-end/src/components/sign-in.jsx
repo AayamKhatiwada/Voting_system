@@ -13,7 +13,7 @@ const SignInComponent = () => {
 
     const login = async () => {
 
-        await axios.post("/auth/login", {
+        await axios.post("http://localhost:5000/api/auth/login", {
             email,
             password,
         }).then((data) => {

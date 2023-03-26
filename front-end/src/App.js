@@ -7,6 +7,8 @@ import Contactus from "./pages/contactus";
 import { ToastContainer } from 'react-toastify';
 import VoteParty from "./pages/vote-party";
 import UserProfile from "./pages/UserProfile";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="vote-party" element={<VoteParty />} />
           <Route path="profile" element={<UserProfile />} />
+          <Route path="adminLogin" element={<AdminLogin />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

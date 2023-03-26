@@ -69,7 +69,7 @@ const UserProfileComponent = () => {
             alert("Please fill all the field properly")
         }
         else {
-            await axios.put(`/user/${user._id}`, {
+            await axios.put(`http://localhost:5000/api/user/${user._id}`, {
                 firstName: fname,
                 lastName: lname,
                 email,

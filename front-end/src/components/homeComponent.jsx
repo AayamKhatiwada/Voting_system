@@ -25,7 +25,7 @@ const HomeComponent = () => {
 
     useEffect(() => {
         const getUserData = async () => {
-            axios.get('/user/getUserData', {
+            axios.get('http://localhost:5000/api/user/getUserData', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }

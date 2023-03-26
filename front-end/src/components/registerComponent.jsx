@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import "./registerComponent.css"
 import axios from 'axios'
 import { ErrorNoty, SuccessNoty } from '../Reuseables/notifications'
@@ -82,7 +82,7 @@ const RegisterComponent = () => {
             alert("Please fill all the field properly")
         }
         else {
-            await axios.post("/auth/register", {
+            await axios.post("http://localhost:5000/api/auth/register", {
                 fname,
                 lname,
                 email,
