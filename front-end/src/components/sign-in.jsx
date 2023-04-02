@@ -21,7 +21,7 @@ const SignInComponent = () => {
             SuccessNoty("Login Successful")
             navigate('/')
         }).catch((err) => {
-            ErrorNoty(err)
+            ErrorNoty(err.response.data)
             console.log(err)
         });
     }
