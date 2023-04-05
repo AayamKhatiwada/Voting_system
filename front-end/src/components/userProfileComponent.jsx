@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import IsEmptyObject from "../Reuseables/isEmptyObject";
 import { ErrorNoty, SuccessNoty } from "../Reuseables/notifications";
 import { setCurrentUser } from "../store/user/user-action";
 import { selectCurrentUser } from "../store/user/user-selector";
@@ -20,12 +21,30 @@ const UserProfileComponent = () => {
     const [contact, setContact] = useState(user.phoneNumber);
     const [citizennum, setCitizennum] = useState(user.citizenNumber);
     const [gender, setGender] = useState(user.gender);
+    const [image, setImage] = useState(user.image);
+    const [displayImage, setDisplayImage] = useState(null);
 
     const [errorFname, setErrorFname] = useState(false);
     const [errorLname, setErrorLname] = useState(false);
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorContact, setErrorContact] = useState(false);
     const [errorCitizennum, setErrorCitizennum] = useState(false);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setImage(file)
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            setDisplayImage(reader.result);
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            setDisplayImage(null);
+        }
+    }
 
     const handleSubmit = async () => {
 
@@ -69,19 +88,21 @@ const UserProfileComponent = () => {
             alert("Please fill all the field properly")
         }
         else {
-            await axios.put(`http://localhost:5000/api/user/${user._id}`, {
-                firstName: fname,
-                lastName: lname,
-                email,
-                province,
-                phoneNumber: contact,
-                citizenNumber: citizennum,
-                gender
-            }, {
+            const formData = new FormData();
+            formData.append('firstName', fname);
+            formData.append('lastName', lname);
+            formData.append('email', email);
+            formData.append('province', province);
+            formData.append('phoneNumber', contact);
+            formData.append('citizenNumber', citizennum);
+            formData.append('image', image);
+
+            await axios.put(`http://localhost:5000/api/user/${user._id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             }).then((response) => {
+                // console.log(response)
                 SuccessNoty("Data updated successfully");
                 dispatch(setCurrentUser(response.data));
             }).catch((error) => {
@@ -90,6 +111,7 @@ const UserProfileComponent = () => {
             });
         }
     }
+    console.log(image)
 
     return (
         <>
@@ -101,7 +123,15 @@ const UserProfileComponent = () => {
                             My Account
                         </div>
                         <div className="profile-left-image">
-                            <img src="https://randomwordgenerator.com/img/picture-generator/chair-1840011_640.jpg" alt="" />
+                            <label htmlFor="file-upload">
+                                {
+                                    (displayImage!== null || IsEmptyObject(image)) ?
+                                    <img src={displayImage!==null ? displayImage: `http://localhost:5000/uploads/${image}`} alt="profile" />
+                                    :
+                                    <div className="profile-user-image">{user.firstName[0]}</div>
+                                }
+                            </label>
+                            <input type="file" id="file-upload" accept="image/*" style={{ display: "none" }} onChange={handleImageChange} />
                         </div>
                         <div className="profile-left-name">
                             {user.firstName + ' ' + user.lastName}

@@ -3,6 +3,7 @@ import { removeUser } from "../store/user/user-action";
 import { useNavigate } from 'react-router-dom'
 import { selectCurrentUser } from "../store/user/user-selector";
 import "./navigateComponent.css"
+import IsEmptyObject from "../Reuseables/isEmptyObject";
 
 const NavigateComponent = () => {
 
@@ -33,7 +34,12 @@ const NavigateComponent = () => {
                             <>
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <div className="user-image">{user.firstName[0]}</div>
+                                        {
+                                            (IsEmptyObject(user.image)) ?
+                                                <img src={`http://localhost:5000/uploads/${user.image}`} className="user-image" alt="profile" />
+                                                :
+                                                <div className="user-image">{user.firstName[0]}</div>
+                                        }
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <li onClick={() => navigate('/profile')} ><a><h4>View profile</h4></a></li>

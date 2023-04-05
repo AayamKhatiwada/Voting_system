@@ -19,10 +19,11 @@
     text-align: center;
 }
 
-.profile-left-image>img {
+.profile-left-image>label>img {
     height: 40rem;
     width: 40rem;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .profile-right-textbox {
@@ -42,4 +43,16 @@
 
 .profile-right-textbox>input{
     padding: 1rem;
+}
+
+.profile-user-image {
+    background-color: #3B9CEA;
+    color: #fff;
+    width: 40rem;
+    height: 40rem;
+    font-size: 200px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 34rem;
+    object-fit: cover;
 }
