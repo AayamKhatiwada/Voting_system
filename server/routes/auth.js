@@ -2,6 +2,8 @@ const router = require("express").Router();
 const User = require("../Models/User");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const { updateOne } = require("../Models/User");
 
 // Register
 router.post("/register", async (req, res) => {
@@ -39,15 +41,59 @@ router.post("/register", async (req, res) => {
             gender: req.body.gender,
         });
 
-        await newUser.save();
+        const userData = await newUser.save();
 
+        sendVerifyMail(req.body.fname, req.body.email, userData._id)
         res.status(200).json("Register Successful")
     }
     catch (err) {
         console.error(err);
-        res.status(500).json({message: "Error saving user"})
+        res.status(500).json({ message: "Error saving user" })
     }
 })
+
+const sendVerifyMail = async(name, email, user_id) => {
+    try {
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            requireTLS: true,
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: 'For Verfication mail',
+            html: '<p>Hello '+ name +',<br/>Please click here to <a href="http://localhost:3000/verify?id='+user_id+'">Verify</a> your mail</p>'
+        }
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(error)
+            }else{
+                console.log("Email has been sent:- ", info.response)
+            }
+        })
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const verifyMail = async() => {
+    try {
+        const updateInfo = await User.updateOne({_id: req.query.id}, { $set:{ is_verified: 1 } })
+
+
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 
 // Login
 router.post("/login", async (req, res) => {
@@ -67,7 +113,7 @@ router.post("/login", async (req, res) => {
         const { password, ...others } = user._doc;
         const accessToken = jwt.sign(others, process.env.ACCESS_TOKEN_SECRET)
 
-        res.status(200).json({accessToken: accessToken})
+        res.status(200).json({ accessToken: accessToken })
     } catch (err) {
         res.status(500).json(err)
     }

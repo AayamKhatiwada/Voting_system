@@ -111,8 +111,7 @@ const UserProfileComponent = () => {
             });
         }
     }
-    console.log(image)
-
+    
     return (
         <>
             <NavigateComponent />
