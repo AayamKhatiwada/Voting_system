@@ -1,47 +1,55 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { ErrorNoty, SuccessNoty } from '../Reuseables/notifications';
 import NavigateComponent from './navigateComponent';
 import './votePartyComponent.css'
 
 const VotePartyComponent = () => {
+
+    const [partyData, setPartyData] = useState([])
+
+    useEffect(() => {
+        const getPartyData = async () => {
+            await axios.get("http://localhost:5000/api/party/getPartyData")
+                .then((response) => {
+                    console.log(response.data)
+                    setPartyData(response.data)
+                }).catch((error) => {
+                    console.error(error);
+                    ErrorNoty(error.response.data);
+                });
+        }
+        partyData.length === 0 && getPartyData()
+    }, [])
+
+    const voteMe = async(party) => {
+        await axios.get(`http://localhost:5000/api/party/voteParty/${party._id}`)
+            .then((response) => {
+                SuccessNoty(response.data)
+            }).catch((error) => {
+                console.error(error);
+                ErrorNoty(error.response.data);
+            });
+    }
+
     return (
         <>
             <NavigateComponent />
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6 p-5">
-                        <h4>Register</h4>
-                        <form action="#" method="POST">
-                            <div class="form-group">
-                                <label for="firstName">First Name</label>
-                                <input type="text" name="firstName" id="firstName" class="form-control" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="lastName">Last Name</label>
-                                <input type="text" name="lastName" id="lastName" class="form-control" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email Address</label>
-                                <input type="email" name="email" id="email" class="form-control" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" id="password" class="form-control" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="confirmPassword">Confirm Password</label>
-                                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" required />
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
-                        </form>
-                    </div>
-                    <div class="col-md-6 right-half">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h1 class="text-white">Welcome to our site!</h1>
+            <div className='container'>
+                <h1>Vote Party</h1>
+                <div className="vote-party-main">
+                    {
+                        partyData.map((party) => {
+                            return (
+                                <div className="vote-party-card col-sm-4" key={party._id}>
+                                    <img src={`http://localhost:5000/uploads/${party.image}`} width="200px" height="200px" />
+                                    <div className="vote-party-card-name">{party.name}</div>
+                                    <div className="vote-party-card-description">{party.description}</div>
+                                    <button className='btn btn-success vote-party-button' onClick={() => voteMe(party)}>Vote Me</button>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
         </>

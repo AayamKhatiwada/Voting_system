@@ -1,18 +1,7 @@
 const router = require("express").Router();
 const User = require("../Models/User");
 const authenticateToken = require("../middleware/middleware");
-const multer = require('multer');
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname)
-    }
-});
-
-const upload = multer({ storage: storage });
+const upload = require("../middleware/upload");
 
 // Get user data
 router.get("/getUserData", authenticateToken, async (req, res) => {

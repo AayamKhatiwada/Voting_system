@@ -39,7 +39,7 @@ const AdminDashboardComponent = () => {
 
                                 <div className="floating-menu" id="floating-menu">
                                     <ul>
-                                        <li onClick={() => setOptions("Party register")}>Add recommendation template</li>
+                                        <li onClick={() => setOptions("Party register")}>Add a party</li>
                                     </ul>
                                 </div>
                             )
