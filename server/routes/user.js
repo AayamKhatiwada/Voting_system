@@ -59,4 +59,21 @@ router.put("/:id", authenticateToken, upload.single('image'), async (req, res) =
     }
 });
 
+
+// Verify email
+router.post("/verifyEmail/:id", async (req, res) => {
+    try {
+        const email = await User.updateOne({_id: req.params.id}, { $set:{ is_Email_Verified: 1 } })
+        
+        if(email){
+            res.status(200).json("Email Verified Successful")
+        }else{
+            res.status(500).json("Email not verified")
+        }
+    } catch (err) {
+        res.status(500).json(err)
+    }
+});
+
+
 module.exports = router

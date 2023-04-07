@@ -40,6 +40,14 @@ const UserSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String,
     },
+    is_Email_Verified: {
+        type: String,
+        default: 0,
+    },
+    is_Phone_Number_Verified: {
+        type: String,
+        default: 0,
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", UserSchema);

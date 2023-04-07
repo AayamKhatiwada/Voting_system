@@ -90,7 +90,7 @@ const RegisterComponent = () => {
                 province,
                 contact,
                 citizennum,
-                gender
+                gender,
             }).then(() => {
                 SuccessNoty("Register Successful")
                 navigate('/signIn')

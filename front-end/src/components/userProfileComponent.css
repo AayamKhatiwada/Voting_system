@@ -41,8 +41,8 @@
     font-size: 1.8rem;
 }
 
-.profile-right-textbox>input{
-    padding: 1rem;
+.profile-right-textbox>div>input{
+    padding: 1rem !important;
 }
 
 .profile-user-image {
@@ -53,6 +53,6 @@
     font-size: 200px;
     border-radius: 50%;
     text-align: center;
-    line-height: 34rem;
+    line-height: 38rem;
     object-fit: cover;
 }

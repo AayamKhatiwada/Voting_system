@@ -9,6 +9,7 @@ import VoteParty from "./pages/vote-party";
 import UserProfile from "./pages/UserProfile";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import VerifyEmail from "./pages/verifyEmail";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="profile" element={<UserProfile />} />
           <Route path="adminLogin" element={<AdminLogin />} />
           <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="verify" element={<VerifyEmail />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

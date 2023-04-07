@@ -85,16 +85,6 @@ const sendVerifyMail = async(name, email, user_id) => {
     }
 }
 
-const verifyMail = async() => {
-    try {
-        const updateInfo = await User.updateOne({_id: req.query.id}, { $set:{ is_verified: 1 } })
-
-
-    } catch (error) {
-        console.log(error.message)
-    }
-}
-
 // Login
 router.post("/login", async (req, res) => {
     try {

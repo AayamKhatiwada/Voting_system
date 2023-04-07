@@ -23,6 +23,7 @@ const UserProfileComponent = () => {
     const [gender, setGender] = useState(user.gender);
     const [image, setImage] = useState(user.image);
     const [displayImage, setDisplayImage] = useState(null);
+    const [emailVerified, setEmailVerified] = useState(user.is_Email_Verified)
 
     const [errorFname, setErrorFname] = useState(false);
     const [errorLname, setErrorLname] = useState(false);
@@ -85,7 +86,7 @@ const UserProfileComponent = () => {
             !citizennum || citizennum[0] === " "
         ) {
             console.log(province, gender)
-            alert("Please fill all the field properly")
+            ErrorNoty("Please fill all the field properly")
         }
         else {
             const formData = new FormData();
@@ -111,7 +112,7 @@ const UserProfileComponent = () => {
             });
         }
     }
-    
+
     return (
         <>
             <NavigateComponent />
@@ -124,10 +125,10 @@ const UserProfileComponent = () => {
                         <div className="profile-left-image">
                             <label htmlFor="file-upload">
                                 {
-                                    (displayImage!== null || IsEmptyObject(image)) ?
-                                    <img src={displayImage!==null ? displayImage: `http://localhost:5000/uploads/${image}`} alt="profile" />
-                                    :
-                                    <div className="profile-user-image">{user.firstName[0]}</div>
+                                    (displayImage !== null || IsEmptyObject(image)) ?
+                                        <img src={displayImage !== null ? displayImage : `http://localhost:5000/uploads/${image}`} alt="profile" />
+                                        :
+                                        <div className="profile-user-image">{user.firstName[0]}</div>
                                 }
                             </label>
                             <input type="file" id="file-upload" accept="image/*" style={{ display: "none" }} onChange={handleImageChange} />
@@ -139,45 +140,61 @@ const UserProfileComponent = () => {
                     <div className="profile-right col-sm-7">
                         <div className="profile-right-textbox">
                             <div className="col-sm-6">First Name</div>
-                            <input type="text"
-                                placeholder="Please enter your first name"
-                                className="input-box rounded"
-                                value={fname}
-                                onChange={(e) => setFname(e.target.value)}
-                            />
-                            {
-                                errorFname === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
+                            <div style={{ width: "100%" }} >
+                                <input type="text"
+                                    placeholder="Please enter your first name"
+                                    className="input-box rounded"
+                                    value={fname}
+                                    onChange={(e) => setFname(e.target.value)}
+                                />
+                                {
+                                    errorFname === true && (
+                                        <div className="register-error-message">Cannot leave the field empty</div>
+                                    )
+                                }
+                            </div>
                         </div>
                         <div className="profile-right-textbox">
                             <div className="col-sm-6">Last Name</div>
-                            <input type="text"
-                                placeholder="Please enter your last name"
-                                className="input-box rounded"
-                                value={lname}
-                                onChange={(e) => setLname(e.target.value)}
-                            />
-                            {
-                                errorLname === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
+                            <div style={{ width: "100%" }} >
+                                <input type="text"
+                                    placeholder="Please enter your last name"
+                                    className="input-box rounded"
+                                    value={lname}
+                                    onChange={(e) => setLname(e.target.value)}
+                                />
+                                {
+                                    errorLname === true && (
+                                        <div className="register-error-message">Cannot leave the field empty</div>
+                                    )
+                                }
+                            </div>
                         </div>
                         <div className="profile-right-textbox">
                             <div className="col-sm-6">Email</div>
-                            <input type="email"
-                                placeholder="Please enter your email address"
-                                className="input-box rounded"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            {
-                                errorEmail === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
+                            <div style={{ width: "100%" }} >
+                                <input type="email"
+                                    placeholder="Please enter your email address"
+                                    className="input-box rounded"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    disabled
+                                />
+                                {
+                                    errorEmail === true && (
+                                        <div className="register-error-message">Cannot leave the field empty</div>
+                                    )
+                                }
+
+                                {
+                                    emailVerified === "0" && (
+                                        <>
+                                            <br />
+                                            <div className="register-error-message">Email not verified</div>
+                                        </>
+                                    )
+                                }
+                            </div>
                         </div>
                         <div className="profile-right-textbox">
                             <div className="col-sm-6">Province
@@ -203,31 +220,35 @@ const UserProfileComponent = () => {
                         </div>
                         <div className="profile-right-textbox">
                             <div className="col-sm-6">Phone Number</div>
-                            <input type="number"
-                                placeholder="Please enter your phone number"
-                                className="input-box rounded"
-                                value={contact}
-                                onChange={(e) => setContact(e.target.value)}
-                            />
-                            {
-                                errorContact === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
+                            <div style={{ width: "100%" }} >
+                                <input type="number"
+                                    placeholder="Please enter your phone number"
+                                    className="input-box rounded"
+                                    value={contact}
+                                    onChange={(e) => setContact(e.target.value)}
+                                />
+                                {
+                                    errorContact === true && (
+                                        <div className="register-error-message">Cannot leave the field empty</div>
+                                    )
+                                }
+                            </div>
                         </div>
                         <div className="profile-right-textbox">
                             <div className="col-sm-6">Citizenship Number</div>
-                            <input type="number"
-                                placeholder="Please enter your citizenship number"
-                                className="input-box rounded"
-                                value={citizennum}
-                                onChange={(e) => setCitizennum(e.target.value)}
-                            />
-                            {
-                                errorCitizennum === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
+                            <div style={{ width: "100%" }} >
+                                <input type="number"
+                                    placeholder="Please enter your citizenship number"
+                                    className="input-box rounded"
+                                    value={citizennum}
+                                    onChange={(e) => setCitizennum(e.target.value)}
+                                />
+                                {
+                                    errorCitizennum === true && (
+                                        <div className="register-error-message">Cannot leave the field empty</div>
+                                    )
+                                }
+                            </div>
                         </div>
                         <div className="profile-right-textbox">
                             <div className="col-sm-6">Gender
