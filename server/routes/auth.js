@@ -3,18 +3,17 @@ const User = require("../Models/User");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const { updateOne } = require("../Models/User");
 
 // Register
-router.post("/register", async (req, res) => {
+router.post("/register", async(req, res) => {
 
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10); //10 is workfactor which determine how much time is needed to calculate a hash
     const hashedPass = await bcrypt.hash(req.body.password, salt);
 
-    const userEmail = await User.findOne({ email: req.body.email })
+    const userEmail = await User.findOne({ email: req.body.email }) //This code checks if the email provided is already used.
     if (userEmail) {
-        res.status(400).json("This email is already registered")
-        return;
+        res.status(400).json("This email is already registered") //with status code of 400 which means there was problem with request.
+        return; //stops the code from running any further so that it doesn't create a new account with a same email.
     };
 
     const userPhoneNumber = await User.findOne({ phoneNumber: req.body.contact })
@@ -29,8 +28,8 @@ router.post("/register", async (req, res) => {
         return;
     };
 
-    try {
-        const newUser = new User({
+    try { // used to handle any errors that might occur during the creation of the user object.
+        const newUser = new User({ // creates a new user object using the data that is sent through a request body.
             firstName: req.body.fname,
             lastName: req.body.lname,
             email: req.body.email,
@@ -40,22 +39,24 @@ router.post("/register", async (req, res) => {
             citizenNumber: req.body.citizennum,
             gender: req.body.gender,
         });
+        // After creating the new user, this code saves the user's data to a database using the save() method. 
+        const userData = await newUser.save(); //await keyword is used to wait for the database operation to complete before proceeding.
 
-        const userData = await newUser.save();
-
+        //calls a function named sendVerifyMail() to send a verification email to the user's email address. 
         sendVerifyMail(req.body.fname, req.body.email, userData._id)
         res.status(200).json("Register Successful")
     }
+    //catch block handles errors that might occur while saving the user's data to the database.
     catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Error saving user" })
+        console.error(err); //it will be logged to the  console.error()
+        res.status(500).json({ message: "Error saving user" }) // and a response with a status code of 500 will be sent back to the client.
     }
 })
 
-const sendVerifyMail = async(name, email, user_id) => {
-    try {
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
+const sendVerifyMail = async(name, email, user_id) => { // asynchronous function called sendVerifyMail()
+    try { //try block is used to handle any errors that might occur while creating the mail transport object.
+        const transporter = nodemailer.createTransport({ //nodemailer package is used to create a mail transport object 
+            host: 'smtp.gmail.com', //that will be used to send the verification email.
             port: 587,
             secure: false,
             requireTLS: true,
@@ -65,34 +66,35 @@ const sendVerifyMail = async(name, email, user_id) => {
             }
         });
 
-        const mailOptions = {
-            from: process.env.EMAIL,
-            to: email,
-            subject: 'For Verfication mail',
-            html: '<p>Hello '+ name +',<br/>Please click here to <a href="http://localhost:3000/verify?id='+user_id+'">Verify</a> your mail</p>'
+        const mailOptions = { //mailOptions that contains the details of an email to be sent for verification.
+            from: process.env.EMAIL, //from property specifies the email address of the sender
+            to: email, //to property specifies the email address of the recipient
+            subject: 'For Verfication mail', //subject property specifies the subject of the email which is "For Verification mail".
+            html: '<p>Hello ' + name + ',<br/>Please click here to <a href="http://localhost:3000/verify?id=' + user_id + '">Verify</a> your mail</p>'
         }
 
-        transporter.sendMail(mailOptions, function(error, info){
-            if(error){
+        transporter.sendMail(mailOptions, function(error, info) {
+            if (error) { ////When the email is sent, the function inside the sendMail() method is called.
                 console.log(error)
-            }else{
+            } else {
                 console.log("Email has been sent:- ", info.response)
             }
         })
 
-    } catch (error) {
-        console.log(error.message);
+    } catch (error) { //catch block logs the error message to the console using console.log(error.message).
+        console.log(error.message); //  
     }
 }
 
 // Login
-router.post("/login", async (req, res) => {
+router.post("/login", async(req, res) => {
     try {
-        const user = await User.findOne({ email: req.body.email })
+        const user = await User.findOne({ email: req.body.email }) //to find a user in the database with the email address provided in the request body.
         if (!user) {
-            res.status(400).json("wrong email")
+            res.status(400).json("wrong email") //a user exists in the database and responds with an error message if they don't.
             return;
         };
+        ////If the password in the request body does not match the password in the database
 
         const validated = await bcrypt.compare(req.body.password, user.password);
         if (!validated) {
@@ -108,5 +110,6 @@ router.post("/login", async (req, res) => {
         res.status(500).json(err)
     }
 });
-
+//the generated JWT is stored in a variable called accessToken, which can be used for authentication
+// and authorization purposes without exposing the user's password.
 module.exports = router
