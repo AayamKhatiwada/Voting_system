@@ -18,68 +18,84 @@ const RegisterComponent = () => {
     const [citizennum, setCitizennum] = useState('');
     const [gender, setGender] = useState('male');
 
-    const [errorFname, setErrorFname] = useState(false);
-    const [errorLname, setErrorLname] = useState(false);
-    const [errorEmail, setErrorEmail] = useState(false);
-    const [errorPassword, setErrorPassword] = useState(false);
-    const [errorCpassword, setErrorCpassword] = useState(false);
-    const [errorContact, setErrorContact] = useState(false);
-    const [errorCitizennum, setErrorCitizennum] = useState(false);
+    const [error, setError] = useState(false)
 
     const handleSubmit = async () => {
 
-        if (!fname || fname[0] === " ") {
-            setErrorFname(true)
-        } else {
-            setErrorFname(false)
+        if (!fname) {
+            ErrorNoty("Cannot leave first name blank")
+            setError(true)
+        } else if (fname[0] === " ") {
+            ErrorNoty("First name must not start with space")
+            setError(true)
+        } else if (fname.length < 3) {
+            ErrorNoty("First name must be more than or equal to 3 letter")
+            setError(true)
         }
 
-        if (!lname || lname[0] === " ") {
-            setErrorLname(true)
-        } else {
-            setErrorLname(false)
+        if (!lname) {
+            ErrorNoty("Cannot leave last name blank")
+            setError(true)
+        } else if (lname[0] === " ") {
+            ErrorNoty("last name must not start with space")
+            setError(true)
+        } else if (lname.length < 3) {
+            ErrorNoty("First name must be more than or equal to 3 letter")
+            setError(true)
         }
 
-        if (!email || email[0] === " ") {
-            setErrorEmail(true)
+        // Check if email is valid
+        if (/\S+@\S+\.\S+/.test(email)) {
+
         } else {
-            setErrorEmail(false)
+            ErrorNoty("Invalid email address.");
+            setError(true)
         }
 
-        if (!password || password[0] === " ") {
-            setErrorPassword(true)
-        } else {
-            setErrorPassword(false)
+        if (!password) {
+            ErrorNoty("Cannot leave password blank")
+            setError(true)
+        } else if (password[0] === " ") {
+            ErrorNoty("Password must not start with space")
+            setError(true)
+        } else if (password.length < 3) {
+            ErrorNoty("Password must be more than or equal to 3 letter")
+            setError(true)
         }
 
         if (cpassword !== password) {
-            setErrorCpassword(true)
-        } else {
-            setErrorCpassword(false)
+            ErrorNoty("Mismatch password and conform password")
+            setError(true)
         }
 
-        if (!contact || contact[0] === " ") {
-            setErrorContact(true)
-        } else {
-            setErrorContact(false)
+        if (!contact) {
+            ErrorNoty("Cannot leave phone number blank")
+            setError(true)
+        } else if (contact[0] === " ") {
+            ErrorNoty("Phone number must not start with space")
+            setError(true)
+        } else if (contact.length !== 10) {
+            ErrorNoty("Phone number must be of 10 digits")
+            setError(true)
         }
 
-        if (!citizennum || citizennum[0] === " ") {
-            setErrorCitizennum(true)
-        } else {
-            setErrorCitizennum(false)
+        if (!citizennum) {
+            ErrorNoty("Cannot leave citizenship number blank")
+            setError(true)
+        } else if (citizennum[0] === " ") {
+            ErrorNoty("Citizenship number must not start with space")
+            setError(true)
         }
 
-        if (!fname || fname[0] === " " ||
-            !lname || lname[0] === " " ||
-            !email || email[0] === " " ||
-            !password || password[0] === " " ||
-            password !== cpassword ||
-            !contact || contact[0] === " " ||
-            !citizennum || citizennum[0] === " "
+        if (!fname || fname[0] === " " || fname.length < 3 ||
+            !lname || lname[0] === " " || lname.length < 3 ||
+            !password || password[0] === " " || password.length < 3 ||
+            !contact || contact[0] === " " || contact.length !== 10 ||
+            !citizennum || citizennum[0] === " "||
+            !(/\S+@\S+\.\S+/.test(email)) ||
+            cpassword !== password
         ) {
-            console.log(province, gender)
-            alert("Please fill all the field properly")
+            setError(true)
         }
         else {
             await axios.post("http://localhost:5000/api/auth/register", {
@@ -116,11 +132,6 @@ const RegisterComponent = () => {
                                 value={fname}
                                 onChange={(e) => setFname(e.target.value)}
                             />
-                            {
-                                errorFname === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
                         </div>
                         <div>
                             <div>Last Name</div>
@@ -130,11 +141,6 @@ const RegisterComponent = () => {
                                 value={lname}
                                 onChange={(e) => setLname(e.target.value)}
                             />
-                            {
-                                errorLname === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
                         </div>
                         <div>
                             <div>Email</div>
@@ -144,11 +150,6 @@ const RegisterComponent = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
-                            {
-                                errorEmail === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
                         </div>
                         <div>
                             <div>Password</div>
@@ -158,11 +159,6 @@ const RegisterComponent = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            {
-                                errorPassword === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
                         </div>
                         <div>
                             <div>Confirm Password</div>
@@ -172,11 +168,6 @@ const RegisterComponent = () => {
                                 value={cpassword}
                                 onChange={(e) => setCpassword(e.target.value)}
                             />
-                            {
-                                errorCpassword === true && (
-                                    <div className="register-error-message">Password and Confirm password doesnot match</div>
-                                )
-                            }
                         </div>
                         <div>
                             <div>Province
@@ -208,11 +199,6 @@ const RegisterComponent = () => {
                                 value={contact}
                                 onChange={(e) => setContact(e.target.value)}
                             />
-                            {
-                                errorContact === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
                         </div>
                         <div>
                             <div>Citizenship Number</div>
@@ -222,11 +208,6 @@ const RegisterComponent = () => {
                                 value={citizennum}
                                 onChange={(e) => setCitizennum(e.target.value)}
                             />
-                            {
-                                errorCitizennum === true && (
-                                    <div className="register-error-message">Cannot leave the field empty</div>
-                                )
-                            }
                         </div>
                         <div>
                             <div>Gender
