@@ -103,7 +103,7 @@ const UserProfileComponent = () => {
                     Authorization: `Bearer ${accessToken}`
                 }
             }).then((response) => {
-                // console.log(response)
+                // console.log(response)   
                 SuccessNoty("Data updated successfully");
                 dispatch(setCurrentUser(response.data));
             }).catch((error) => {
@@ -125,7 +125,7 @@ const UserProfileComponent = () => {
                         <div className="profile-left-image">
                             <label htmlFor="file-upload">
                                 {
-                                    (displayImage !== null || IsEmptyObject(image)) ?
+                                    ((displayImage !== null || IsEmptyObject(image)) && user.image !== "[object Object]") ?
                                         <img src={displayImage !== null ? displayImage : `http://localhost:5000/uploads/${image}`} alt="profile" />
                                         :
                                         <div className="profile-user-image">{user.firstName[0]}</div>

@@ -35,7 +35,7 @@ const NavigateComponent = () => {
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {
-                                            (IsEmptyObject(user.image)) ?
+                                            (IsEmptyObject(user.image) && user.image !== "[object Object]") ?
                                                 <img src={`http://localhost:5000/uploads/${user.image}`} className="user-image" alt="profile" />
                                                 :
                                                 <div className="user-image">{user.firstName[0]}</div>

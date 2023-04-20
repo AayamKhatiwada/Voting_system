@@ -1,19 +1,16 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { SuccessNoty } from "../Reuseables/notifications";
 
 const VerifyEmail = () => {
 
     const searchParams = new URLSearchParams(window.location.search);
     const id = searchParams.get('id');
-    const navigate = useNavigate()
 
     const verifyEmail = async() => {
         await axios.post(`http://localhost:5000/api/user/verifyEmail/${id}`)
         .then((response) => {
             console.log(response.data)
             SuccessNoty(response.data)
-            navigate('/')
         }).catch((err) => {
             // ErrorNoty(err.response.data)
             console.log(err)
