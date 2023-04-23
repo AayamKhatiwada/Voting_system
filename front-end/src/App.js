@@ -10,6 +10,9 @@ import UserProfile from "./pages/UserProfile";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import VerifyEmail from "./pages/verifyEmail";
+import WithoutAuthOnly from "./Reuseables/withoutAuthOnly";
+import RequireAuth from "./Reuseables/RequireAuth";
+import RequireAdminAuth from "./Reuseables/RequireAdminAuth";
 
 function App() {
   return (
@@ -19,12 +22,32 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="about-us" element={<About />} />
           <Route path="contact-us" element={<Contactus />} />
-          <Route path="signIn" element={<SignInPage />} />
-          <Route path="register" element={<Register />} />
+
+
+          <Route path="signIn" element={
+            <WithoutAuthOnly>
+              <SignInPage />
+            </WithoutAuthOnly>
+          } />
+          <Route path="register" element={
+            <WithoutAuthOnly>
+              <Register />
+            </WithoutAuthOnly>
+          } />
+
+          <Route path="profile" element={
+            <RequireAuth>
+              <UserProfile />
+            </RequireAuth>
+          } />
+
           <Route path="vote-party" element={<VoteParty />} />
-          <Route path="profile" element={<UserProfile />} />
           <Route path="adminLogin" element={<AdminLogin />} />
-          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="dashboard" element={
+            <RequireAdminAuth>
+              <AdminDashboard />
+            </RequireAdminAuth>
+          } />
           <Route path="verify" element={<VerifyEmail />} />
         </Routes>
       </BrowserRouter>

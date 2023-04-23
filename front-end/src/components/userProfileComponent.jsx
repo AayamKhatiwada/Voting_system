@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import IsEmptyObject from "../Reuseables/isEmptyObject";
 import { ErrorNoty, SuccessNoty } from "../Reuseables/notifications";
@@ -30,6 +30,23 @@ const UserProfileComponent = () => {
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorContact, setErrorContact] = useState(false);
     const [errorCitizennum, setErrorCitizennum] = useState(false);
+
+    useEffect(() => {
+        const getUserData = async () => {
+            axios.get('http://localhost:5000/api/user/getUserData', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+                .then(response => {
+                    dispatch(setCurrentUser(response.data));
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+        accessToken !== null && getUserData()
+    }, [accessToken, dispatch])
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];

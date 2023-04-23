@@ -3,12 +3,22 @@ import AdminDashboardItemComponent from '../AdminDashboardItemComponent/adminDas
 import AdminPartyRegister from '../AdminPartyRegister/adminPartyRegister';
 import AdminSideBar from '../AdminSideBar/adminSidebar';
 import './adminDashboardComponent.css'
+import { useDispatch } from 'react-redux';
+import { removeAdmin } from '../../../store/admin/admin-action';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboardComponent = () => {
 
     const [options, setOptions] = useState("Dashboard")
     const [displayOption, setDisplayOption] = useState(false);
     const [displayAdminOption, setDisplayAdminOption] = useState(false);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const logout = () => {
+        dispatch(removeAdmin());
+        navigate('/')
+    }
 
     return (
         <>
@@ -25,7 +35,7 @@ const AdminDashboardComponent = () => {
                         </div>
                         {
                             displayAdminOption && (
-                                <div className="floating-menu-admin" id="floating-menu-admin">
+                                <div className="floating-menu-admin" id="floating-menu-admin" onClick={() => logout()}>
                                     <ul>
                                         <li>Log Out</li>
                                     </ul>
