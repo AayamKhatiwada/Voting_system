@@ -1,4 +1,3 @@
-import VoterBox from '../assets/voter_box.png'
 import './sign-in.css'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
@@ -56,7 +55,7 @@ const SignInComponent = () => {
                     <p className='text-center'>Dont't have an account? &nbsp;<a href="/register">Sign Up</a></p>
                 </div>
                 <div className="col-sm-6">
-                    <img src={VoterBox} alt="Voter_box" width="100%" className='image-style' />
+                    {/* <img src={VoterBox} alt="Voter_box" width="100%" className='image-style' /> */}
                 </div>
             </div>
         </div>

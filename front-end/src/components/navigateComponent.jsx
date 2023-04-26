@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { selectCurrentUser } from "../store/user/user-selector";
 import "./navigateComponent.css"
 import IsEmptyObject from "../Reuseables/isEmptyObject";
+import PinkBubble from '../assets/Home/PinkBubble.png'
 
 const NavigateComponent = () => {
 
@@ -16,19 +17,20 @@ const NavigateComponent = () => {
         dispatch(removeUser())
     }
 
+    const currentUrl = window.location.pathname;
+
     return (
         <>
             <nav className="navbar">
-                <div className="container-fluid nav-full">
+                <div className="nav-full">
                     <div className="navbar-header">
-                        <a className="nav-title" href="/"><h2>Online Voting System</h2></a>
+                        <a className="nav-title" href="/">Online Voting System</a>
                     </div>
-                    <ul className="nav navbar-nav">
-                        <li className="active"><a href="/"><h4>Home</h4></a></li>
-                        <li><a href="about-us"><h4>About</h4></a></li>
-                        <li><a href="/vote-party"><h4>Vote Party</h4></a></li>
-                        <li><a href="/"><h4>Vote Candidate</h4></a></li>
-                        <li><a href="contact-us"><h4>Contact</h4></a></li>
+                    <ul className="nav navbar-nav navbar-buttons">
+                        <li><a href="/" className={currentUrl === "/" ? "navbar-active": ""}><h4>Home</h4></a></li>
+                        <li><a href="about-us" className={currentUrl === "/about-us" ? "navbar-active" : ''}><h4>About</h4></a></li>
+                        <li><a href="vote-party" className={currentUrl === "/vote-party" ? "navbar-active" : ''}><h4>Vote Party</h4></a></li>
+                        <li><a href="contact-us" className={currentUrl === "/contact-us" ? "navbar-active" : ''}><h4>Contact</h4></a></li>
                         {
                             user.length !== 0 &&
                             <>
@@ -49,6 +51,7 @@ const NavigateComponent = () => {
                             </>
                         }
                     </ul>
+                    <img src={PinkBubble} alt="" className="home-pinkBubble" />
                 </div>
             </nav>
         </>

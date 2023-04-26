@@ -1,58 +1,37 @@
-.contact-main {
-    margin: 1rem 22rem;
+.contact-main{
+    text-align: center;
+}
+
+.contact-title{
+    font-size: 4rem;
+}
+
+.contact-title > span, .contact-left-title > span{
+    color: #BC3A80;
+}
+
+.contact-title > img{
+    position: absolute;
+    z-index: -1;
+}
+
+.contact-body{
     display: flex;
-    border: 1px solid black;
-    overflow: hidden;
-    border-radius: 50px;
+    justify-content: space-around;
+    align-items: center;
 }
 
-.contact-left-side {
-    width: 90%;
-    padding: 3rem 20rem 4rem 10rem;
+.contact-left-title{
+    font-size: 3rem;
+    text-align: left;
 }
 
-.contact-title {
-    font-size: 45px;
-    padding: 10px 0px;
+.contact-left-side>*{
+    margin-bottom: 3rem;
 }
 
-.contact-touch {
-    color: #366ff4;
-}
-
-.contact-desc {
-    width: 80%;
-    padding-bottom: 20px;
-}
-
-.contact-text-field {
-    margin-bottom: 20px !important;
+.contact-left-side>button{
     width: 100%;
-}
-
-.contact-items {
-    display: flex;
-    justify-content: space-between;
-}
-
-.contact-item {
-    display: flex;
-}
-
-.contact-item svg {
-    margin: 1rem 0 0 0;
-}
-
-.contact-item-detail {
-    padding: 0px 10px;
-}
-
-.contact-image {
-    position: relative;
-    left: -18rem;
-    top: 10rem;
-}
-
-.contact-right-side {
-    background-color: #03039d;
+    padding: 1rem 0;
+    font-size: 2rem;
 }

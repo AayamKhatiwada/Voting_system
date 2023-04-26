@@ -1,19 +1,16 @@
-.about-main {
+.about-main{
     display: flex;
-    justify-content: space-evenly;
-    margin: 6rem;
 }
 
-.about-left-side {
-    Width: 50%;
-    padding: 2rem 12rem 0px 2rem;
+.about-title{
+    font-size: 5rem;
 }
 
-.about-heading {
-    font-size: 40px;
-    margin-bottom: 3rem;
+.about-title > span{
+    color: #BC3A80;
 }
 
 .about-desc{
-    font-size: 20px;
+    font-size: 2.5rem;
+    padding: 6rem 10rem 0 0;
 }

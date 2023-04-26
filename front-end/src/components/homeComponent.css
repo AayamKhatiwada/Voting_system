@@ -1,39 +1,32 @@
-body {
-    font-family: 'Source Code Pro', monospace;
-    font-weight: bold;
-}
-
-.home-body {
+.home-body{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    text-align: center;
     align-items: center;
-    padding: 80px;
 }
 
-.home-left-part {
-    width: 60%;
-    padding: 0px 50px;
-    text-align: center;
+.home-right-title{
+    font-size: 5rem;
 }
 
-.home-title {
-    word-spacing: 1rem;
-    font-family: 'Hanuman', serif !important;
-    font-size: 52px;
-    margin: 50px 0;
+.home-right-desc{
+    margin-top: 2rem;
+    font-size: 3rem;
 }
 
-.home-image {
-    text-align: center;
-}
-
-.home-buttons {
+.home-buttons{
     display: flex;
     justify-content: space-around;
+    margin: 6rem;
 }
 
-.home-buttons>button {
-    padding: 5px 45px;
-    border-radius: 32px;
-    font-size: 20px;
+.home-buttons>button{
+    font-size: 2rem;
+    padding: 1.5rem 6rem;
+    border-radius: 6px;
+}
+
+.home-buttons-register{
+    background-color: #E0BEE0;
+    color: black;
 }

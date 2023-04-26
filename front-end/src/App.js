@@ -20,35 +20,33 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="about-us" element={<About />} />
-          <Route path="contact-us" element={<Contactus />} />
-
-
-          <Route path="signIn" element={
+          <Route path="/about-us" element={<About />} />
+          <Route path="/contact-us" element={<Contactus />} />
+          <Route path="/signIn" element={
             <WithoutAuthOnly>
               <SignInPage />
             </WithoutAuthOnly>
           } />
-          <Route path="register" element={
+          <Route path="/register" element={
             <WithoutAuthOnly>
               <Register />
             </WithoutAuthOnly>
           } />
 
-          <Route path="profile" element={
+          <Route path="/profile" element={
             <RequireAuth>
               <UserProfile />
             </RequireAuth>
           } />
 
-          <Route path="vote-party" element={<VoteParty />} />
-          <Route path="adminLogin" element={<AdminLogin />} />
-          <Route path="dashboard" element={
+          <Route path="/vote-party" element={<VoteParty />} />
+          <Route path="/adminLogin" element={<AdminLogin />} />
+          <Route path="/dashboard" element={
             <RequireAdminAuth>
               <AdminDashboard />
             </RequireAdminAuth>
           } />
-          <Route path="verify" element={<VerifyEmail />} />
+          <Route path="/verify" element={<VerifyEmail />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

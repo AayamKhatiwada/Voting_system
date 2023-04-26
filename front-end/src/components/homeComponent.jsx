@@ -1,5 +1,5 @@
 import "./homeComponent.css"
-import HomeImage from '../assets/home-image.png'
+import HomeImage from '../assets/Home/HomeImage.png'
 import { useNavigate } from "react-router-dom";
 import NavigateComponent from "./navigateComponent";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,18 +45,23 @@ const HomeComponent = () => {
             <NavigateComponent />
 
             <div className="home-body">
-                <div className="home-left-part">
-                    <div className="home-title">YOUR VOTE MATTERS DON'T LOSE IT</div>
+                <div className="home-left-side col-sm-6">
+                    <img src={HomeImage} alt="" width="100%"/>
+                </div>
+                <div className="home-right-side col-sm-6">
+                    <div className="home-right-title">
+                        YOUR VOTE MATTERS<br /> DON'T LOSE IT
+                    </div>
+                    <div className="home-right-desc">
+                        Vote Your Favourite Leader
+                    </div>
                     {
                         user.length === 0 &&
                         <div className="home-buttons">
-                            <button type="button" className="btn btn-primary" onClick={changeToSignIn}>Log in</button>
-                            <button type="button" className="btn btn-secondary" onClick={changeToRegister}>Register</button>
+                            <button type="button" className="btn btn-primary home-buttons-login" onClick={changeToSignIn}>Log in</button>
+                            <button type="button" className="btn home-buttons-register" onClick={changeToRegister}>Register</button>
                         </div>
                     }
-                </div>
-                <div className="home-image">
-                    <img src={HomeImage} alt="Voter_box" width="100%" />
                 </div>
             </div>
         </>
