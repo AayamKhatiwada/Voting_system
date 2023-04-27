@@ -3,6 +3,7 @@
     flex-wrap: wrap;
     word-break: break-all;
     padding-top: 4rem;
+    justify-content: space-around;
 }
 
 .vote-party-card {

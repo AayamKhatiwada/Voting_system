@@ -46,7 +46,7 @@ const HomeComponent = () => {
 
             <div className="home-body">
                 <div className="home-left-side col-sm-6">
-                    <img src={HomeImage} alt="" width="100%"/>
+                    <img src={HomeImage} alt="" width="90%"/>
                 </div>
                 <div className="home-right-side col-sm-6">
                     <div className="home-right-title">

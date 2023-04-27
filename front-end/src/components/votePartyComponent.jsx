@@ -52,7 +52,7 @@ const VotePartyComponent = () => {
                     {
                         partyData.map((party) => {
                             return (
-                                <div className="vote-party-card col-sm-4" key={party._id}>
+                                <div className="vote-party-card col-sm-3" key={party._id}>
                                     <img src={`http://localhost:5000/uploads/${party.image}`} width="200px" height="200px" />
                                     <div className="vote-party-card-name">{party.name}</div>
                                     <div className="vote-party-card-description">{party.description}</div>

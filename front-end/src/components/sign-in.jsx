@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import axios from 'axios';
 import { ErrorNoty, SuccessNoty } from '../Reuseables/notifications';
+import SignInImage from ".././assets/LoginImage.png"
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import NavigateComponent from './navigateComponent';
 
 const SignInComponent = () => {
 
@@ -10,8 +15,10 @@ const SignInComponent = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const login = async () => {
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+    const login = async () => {
         await axios.post("http://localhost:5000/api/auth/login", {
             email,
             password,
@@ -25,40 +32,89 @@ const SignInComponent = () => {
         });
     }
 
+    const checkInputAndLogin = () => {
+        // Check if email is valid
+        if (!(/\S+@\S+\.\S+/.test(email))) {
+            ErrorNoty("Invalid email address.");
+        } else if (!password) {
+            ErrorNoty("Cannot leave password blank")
+        } else if (password[0] === " ") {
+            ErrorNoty("Password must not start with space")
+        } else if (password.length < 3) {
+            ErrorNoty("Password must be more than or equal to 3 letter")
+        } else {
+            login()
+        }
+    }
+
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-sm-6 left-side">
-                    <div className='text-center'>
-                        <h1>Welcome Back</h1>
-                        <p>Welcome back please enter your details</p>
-                    </div>
-                    <div>
-                        <h3>Email</h3>
-                        <input type="text" placeholder="Please enter your email address" value={email} onChange={(e) => setEmail(e.target.value)}/>
-                    </div>
-                    <div>
-                        <h3>Password</h3>
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                    </div>
-                    <div className='same-line-spaceBetween'>
-                        <div className='same-line'>
-                            <div style={{ marginRight: "5px" }}>
-                                <input type="checkbox" name="remember" />
-                            </div>
-                            <label name="remember">Remember for 30days</label>
-                        </div>
-                        <a href='/'>Forget Password</a>
-                    </div>
-                    <button type="button" className='btn btn-success button-style' onClick={login}>Sign in</button>
-                    <button type="button" className='btn btn-light button-style'>Sign in with Google</button>
-                    <p className='text-center'>Dont't have an account? &nbsp;<a href="/register">Sign Up</a></p>
+        <>
+            <NavigateComponent />
+            <div className="signin-main">
+                <div className="signin-left col-sm-6">
+                    <img src={SignInImage} alt="" width="90%" />
                 </div>
-                <div className="col-sm-6">
-                    {/* <img src={VoterBox} alt="Voter_box" width="100%" className='image-style' /> */}
+
+                <div className="signin-right col-sm-6">
+                    <div className="signin-right-title">
+                        Log <span>In</span>
+                    </div>
+
+                    <div className="signin-right-desc">
+                        Welcome back please enter your details
+                    </div>
+
+                    <div className="signin-textfield">
+                        <TextField
+                            label="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            fullWidth
+                            InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
+                            InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
+                        />
+                    </div>
+
+                    <div className="signin-textfield">
+                        <FormControl sx={{ fontSize: 14, width: "100%", borderBottom: "0.5px solid white", color: "white" }} variant="outlined">
+                            <InputLabel htmlFor="outlined-adornment-password" sx={{ color: "white", fontSize: 14 }}>Password</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-password"
+                                type={showPassword ? 'text' : 'password'}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                            sx={{ color: "white" }}
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                label="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                sx={{ color: "white", fontSize: 14 }}
+                            />
+                        </FormControl>
+                    </div>
+
+                    <div className="signin-forget-password">
+                        Forget Password ?
+                    </div>
+
+                    <div className="signin-register">
+                        Not a user? <span onClick={() => navigate('/register')}>Register now</span>
+                    </div>
+
+                    <div className="signin-right-button">
+                        <button className='btn' onClick={checkInputAndLogin}>Login</button>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </>
     );
 }
 

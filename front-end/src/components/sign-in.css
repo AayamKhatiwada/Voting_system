@@ -1,10 +1,11 @@
-.left-side{
+/* .left-side{
     padding: 8rem;
 }
 
 input{
     padding: 10px;
     width: 100%;
+    color: black;
 }
 
 .same-line-spaceBetween{
@@ -25,4 +26,59 @@ input{
 .image-style{
     margin: 50px;
 }
+ */
 
+
+.signin-main {
+    display: flex;
+}
+
+.signin-right {
+    padding: 5rem;
+}
+
+.signin-right-title {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.signin-right-title>span {
+    color: #BC3A80;
+}
+
+.signin-right-desc{
+    font-size: 2rem;
+    margin-bottom: 3rem;
+}
+
+.signin-textfield{
+    margin-bottom: 2rem;
+}
+
+.signin-forget-password{
+    color: #499FFE;
+    margin: 3rem 0 1rem 0;
+}
+
+.signin-register{
+    margin: 2rem 0 1rem 0;
+}
+
+.signin-register > span{
+    color: #499FFE;
+    cursor: pointer;
+}
+
+.signin-right-button>button{
+    background-color: #BC3A80;
+    padding: 1rem 6rem;
+}
+
+.signin-right-button>button:hover{
+    background-color: #ab3674;
+    color: rgb(244, 244, 244);
+}
+
+.signin-right-button>button:focus{
+    color: rgb(244, 244, 244);
+}

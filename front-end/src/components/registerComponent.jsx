@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import "./registerComponent.css"
 import axios from 'axios'
 import { ErrorNoty, SuccessNoty } from '../Reuseables/notifications'
+import { FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material'
+import RegisterImage from '.././assets/RegisterImage.png'
+import NavigateComponent from './navigateComponent'
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const RegisterComponent = () => {
 
@@ -13,12 +18,18 @@ const RegisterComponent = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cpassword, setCpassword] = useState('');
-    const [province, setProvince] = useState('one');
+    const [province, setProvince] = useState("1");
     const [contact, setContact] = useState('');
     const [citizennum, setCitizennum] = useState('');
-    const [gender, setGender] = useState('male');
+    const [gender, setGender] = useState("male");
 
     const [error, setError] = useState(false)
+
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const [showCpassword, setShowCpassword] = useState(false);
+    const handleClickShowCpassword = () => setShowCpassword((show) => !show);
 
     const handleSubmit = async () => {
 
@@ -91,7 +102,7 @@ const RegisterComponent = () => {
             !lname || lname[0] === " " || lname.length < 3 ||
             !password || password[0] === " " || password.length < 3 ||
             !contact || contact[0] === " " || contact.length !== 10 ||
-            !citizennum || citizennum[0] === " "||
+            !citizennum || citizennum[0] === " " ||
             !(/\S+@\S+\.\S+/.test(email)) ||
             cpassword !== password
         ) {
@@ -119,115 +130,163 @@ const RegisterComponent = () => {
 
     return (
         <>
-            <div className="d-flex justify-content-center align-items-center head">
-                <div className="main-container">
-                    <h3 className="text-center text-success">Register</h3>
+            <NavigateComponent />
 
-                    <div className="input-form rounded">
-                        <div>
-                            <div>First Name</div>
-                            <input type="text"
-                                placeholder="Please enter your first name"
-                                className="input-box rounded"
-                                value={fname}
-                                onChange={(e) => setFname(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <div>Last Name</div>
-                            <input type="text"
-                                placeholder="Please enter your last name"
-                                className="input-box rounded"
-                                value={lname}
-                                onChange={(e) => setLname(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <div>Email</div>
-                            <input type="email"
-                                placeholder="Please enter your email address"
-                                className="input-box rounded"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <div>Password</div>
-                            <input type="password"
-                                placeholder="Please enter your password"
-                                className="input-box rounded"
+            <div className="register-main">
+                <div className="register-left col-sm-5">
+                    <div className="register-left-title">
+                        Join for <span>VOTE</span>
+                    </div>
+                    <img src={RegisterImage} alt="" width='80%' />
+                </div>
+
+                <div className="register-right col-sm-6">
+
+                    <div className="register-textfield">
+                        <TextField
+                            label="First Name"
+                            value={fname}
+                            onChange={(e) => setFname(e.target.value)}
+                            fullWidth
+                            InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
+                            InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
+                        />
+                    </div>
+
+                    <div className="register-textfield">
+                        <TextField
+                            label="Last Name"
+                            value={lname}
+                            onChange={(e) => setLname(e.target.value)}
+                            fullWidth
+                            InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
+                            InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
+                        />
+                    </div>
+
+                    <div className="register-textfield">
+                        <TextField
+                            label="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            fullWidth
+                            InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
+                            InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
+                        />
+                    </div>
+
+                    <div className="register-textfield">
+                        <FormControl sx={{ fontSize: 14, width: "100%", borderBottom: "0.5px solid white", color: "white" }} variant="outlined">
+                            <InputLabel htmlFor="outlined-adornment-password" sx={{ color: "white", fontSize: 14 }}>Password</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-password"
+                                type={showPassword ? 'text' : 'password'}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                            sx={{ color: "white" }}
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                label="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                sx={{ color: "white", fontSize: 14 }}
                             />
-                        </div>
-                        <div>
-                            <div>Confirm Password</div>
-                            <input type="password"
-                                placeholder="Please enter your password"
-                                className="input-box rounded"
+                        </FormControl>
+                    </div>
+
+                    <div className="register-textfield">
+                        <FormControl sx={{ fontSize: 14, width: "100%", borderBottom: "0.5px solid white", color: "white" }} variant="outlined">
+                            <InputLabel htmlFor="outlined-adornment-password" sx={{ color: "white", fontSize: 14 }}>Confirm Password</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-password"
+                                type={showCpassword ? 'text' : 'password'}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowCpassword}
+                                            edge="end"
+                                            sx={{ color: "white" }}
+                                        >
+                                            {showCpassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                label="Confirm Password"
                                 value={cpassword}
                                 onChange={(e) => setCpassword(e.target.value)}
+                                sx={{ color: "white", fontSize: 14 }}
                             />
-                        </div>
-                        <div>
-                            <div>Province
-                                <span>
-                                    <select
-                                        type="text"
-                                        name="province"
-                                        id="province"
-                                        value={province}
-                                        onChange={(e) => setProvince(e.target.value)}
-                                        style={{ margin: "5px 15px" }}
-                                    >
-                                        <option value="one">Province No. 1</option>
-                                        <option value="two">Province No. 2</option>
-                                        <option value="three">Province No. 3</option>
-                                        <option value="four">Province No. 4</option>
-                                        <option value="five">Province No. 5</option>
-                                        <option value="six">Province No. 6</option>
-                                        <option value="seven">Province No. 7</option>
-                                    </select>
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <div>Phone Number</div>
-                            <input type="number"
-                                placeholder="Please enter your phone number"
-                                className="input-box rounded"
-                                value={contact}
-                                onChange={(e) => setContact(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <div>Citizenship Number</div>
-                            <input type="number"
-                                placeholder="Please enter your citizenship number"
-                                className="input-box rounded"
-                                value={citizennum}
-                                onChange={(e) => setCitizennum(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <div>Gender
-                                <span>
-                                    <select
-                                        type="text"
-                                        name="gender"
-                                        id="gender"
-                                        value={gender}
-                                        onChange={(e) => setGender(e.target.value)}
-                                        style={{ margin: "5px 15px" }}
-                                    >
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
-                                </span>
-                            </div>
-                        </div>
+                        </FormControl>
+                    </div>
 
-                        <button type='submit' className="btn btn-success register-submit-button" onClick={handleSubmit}>Register</button>
+                    <div className="register-textfield">
+                        <TextField
+                            label="Phone Number"
+                            value={contact}
+                            onChange={(e) => setContact(e.target.value)}
+                            fullWidth
+                            InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
+                            InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
+                        />
+                    </div>
+
+                    <div className="register-textfield">
+                        <TextField
+                            label="Citizenship Number"
+                            value={citizennum}
+                            onChange={(e) => setCitizennum(e.target.value)}
+                            fullWidth
+                            InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
+                            InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
+                        />
+                    </div>
+
+                    <div className="register-textfield">
+                        <FormControl fullWidth sx={{ borderBottom: "0.5px solid white", color: "white" }}>
+                            <InputLabel id="demo-simple-select-label" sx={{ color: "white", fontSize: 14 }}>Province</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                value={province}
+                                onChange={(e) => setProvince(e.target.value)}
+                                label="Province"
+                                sx={{ color: "white", fontSize: 14 }}
+                            >
+                                <MenuItem value='1'>Province 1</MenuItem>
+                                <MenuItem value='2'>Province 2</MenuItem>
+                                <MenuItem value='3'>Province 3</MenuItem>
+                                <MenuItem value='4'>Province 4</MenuItem>
+                                <MenuItem value='5'>Province 5</MenuItem>
+                                <MenuItem value='6'>Province 6</MenuItem>
+                                <MenuItem value='7'>Province 7</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
+
+                    <div className="register-textfield">
+                        <FormControl fullWidth sx={{ borderBottom: "0.5px solid white", color: "white" }}>
+                            <InputLabel id="demo-simple-select-label" sx={{ color: "white", fontSize: 14 }}>Gender</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                value={gender}
+                                onChange={(e) => setGender(e.target.value)}
+                                label="Gender"
+                                sx={{ color: "white", fontSize: 14 }}
+                            >
+                                <MenuItem value="male">Male</MenuItem>
+                                <MenuItem value="female">Female</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: "center", margin: "0px" }}>
+                        <button type='submit' className="btn btn-primary register-submit-button" onClick={handleSubmit}>Register</button>
                     </div>
                 </div>
             </div>

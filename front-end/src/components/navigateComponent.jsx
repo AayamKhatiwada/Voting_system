@@ -5,6 +5,7 @@ import { selectCurrentUser } from "../store/user/user-selector";
 import "./navigateComponent.css"
 import IsEmptyObject from "../Reuseables/isEmptyObject";
 import PinkBubble from '../assets/Home/PinkBubble.png'
+import { SuccessNoty } from "../Reuseables/notifications";
 
 const NavigateComponent = () => {
 
@@ -15,6 +16,7 @@ const NavigateComponent = () => {
     const logout = () => {
         localStorage.removeItem("accessToken");
         dispatch(removeUser())
+        SuccessNoty("LogOut Successful")
     }
 
     const currentUrl = window.location.pathname;

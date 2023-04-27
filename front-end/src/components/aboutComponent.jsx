@@ -9,7 +9,7 @@ const Aboutcomponent = () => {
 
             <div className="about-main">
                 <div className="about-left-side col-sm-6">
-                    <img src={AboutImage} alt="" width="100%" />
+                    <img src={AboutImage} alt="" width="90%" />
                 </div>
 
                 <div className="about-right-side col-sm-6">
