@@ -13,6 +13,7 @@ import VerifyEmail from "./pages/verifyEmail";
 import WithoutAuthOnly from "./Reuseables/withoutAuthOnly";
 import RequireAuth from "./Reuseables/RequireAuth";
 import RequireAdminAuth from "./Reuseables/RequireAdminAuth";
+import AdminSideBar from "./components/Admin/AdminSideBar/adminSidebar";
 
 function App() {
   return (
@@ -41,10 +42,16 @@ function App() {
 
           <Route path="/vote-party" element={<VoteParty />} />
           <Route path="/adminLogin" element={<AdminLogin />} />
-          <Route path="/dashboard" element={
-            <RequireAdminAuth>
-              <AdminDashboard />
-            </RequireAdminAuth>
+          <Route path="/admin/*" element={
+            <>
+              <AdminSideBar />
+              <RequireAdminAuth>
+                <Routes>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="/votes" element={<AdminDashboard />} />
+                </Routes>
+              </RequireAdminAuth>
+            </>
           } />
           <Route path="/verify" element={<VerifyEmail />} />
         </Routes>

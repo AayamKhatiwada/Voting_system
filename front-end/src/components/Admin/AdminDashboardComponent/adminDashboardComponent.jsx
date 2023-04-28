@@ -1,17 +1,9 @@
-import { useState } from 'react';
-import AdminDashboardItemComponent from '../AdminDashboardItemComponent/adminDashBoardItemComponent';
-import AdminPartyRegister from '../AdminPartyRegister/adminPartyRegister';
-import AdminSideBar from '../AdminSideBar/adminSidebar';
 import './adminDashboardComponent.css'
 import { useDispatch } from 'react-redux';
 import { removeAdmin } from '../../../store/admin/admin-action';
 import { useNavigate } from 'react-router-dom';
 
-const AdminDashboardComponent = () => {
-
-    const [options, setOptions] = useState("Dashboard")
-    const [displayOption, setDisplayOption] = useState(false);
-    const [displayAdminOption, setDisplayAdminOption] = useState(false);
+const AdminDashboardComponent = ({children}) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -24,45 +16,22 @@ const AdminDashboardComponent = () => {
         <>
             <div className="container-fluid">
                 <div className="row">
-                    <AdminSideBar setOptions={setOptions} options={options} />
                     <div className="col-md-10 main-content">
                         <div className='admin-dashboard-header'>
-                            <div className="h1 text-secondary">{options}</div>
-                            <div className='admin-profile' onClick={() => setDisplayAdminOption(!displayAdminOption)}>
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBQn5Cw7Sx51hfAqjTm2iWshuqBA6UVnWL0g&usqp=CAU" className="admin-button link" id="floating-button" alt="profile"/>
-                                <div className='p-3 admin-profile-text h4'>Bises Adk</div>
+                            <div className="h1 text-secondary">DashBoard</div>
+                            <div className="dropdown">
+                                <div className="admin-profile" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBQn5Cw7Sx51hfAqjTm2iWshuqBA6UVnWL0g&usqp=CAU" className="admin-button link" id="floating-button" alt="profile" />
+                                    <div className='p-3 admin-profile-text h4'>Bises Adk</div>
+                                </div>
+                                <div className="dropdown-menu admin-nav-dropdown" aria-labelledby="navbarDropdownMenuLink">
+                                    <div onClick={logout}>Log Out</div>
+                                </div>
                             </div>
                         </div>
-                        {
-                            displayAdminOption && (
-                                <div className="floating-menu-admin" id="floating-menu-admin" onClick={() => logout()}>
-                                    <ul>
-                                        <li>Log Out</li>
-                                    </ul>
-                                </div>
-                            )
-                        }
+                        <hr style={{ marginTop: "0" }} />
 
-                        <button className="floating-button link" id="floating-button" onClick={() => setDisplayOption(!displayOption)}>+</button>
-                        {
-                            displayOption && (
-
-                                <div className="floating-menu" id="floating-menu">
-                                    <ul>
-                                        <li onClick={() => setOptions("Party register")}>Add a party</li>
-                                    </ul>
-                                </div>
-                            )
-                        }
-
-                        {
-                            options === "Dashboard" && <AdminDashboardItemComponent />
-                        }
-
-                        {
-                            options === "Party register" && <AdminPartyRegister />
-                        }
-
+                        {children}
                     </div>
                 </div>
             </div>

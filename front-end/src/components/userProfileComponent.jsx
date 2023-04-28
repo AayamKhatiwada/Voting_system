@@ -7,6 +7,7 @@ import { setCurrentUser } from "../store/user/user-action";
 import { selectCurrentUser } from "../store/user/user-selector";
 import NavigateComponent from "./navigateComponent";
 import './userProfileComponent.css'
+import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 const UserProfileComponent = () => {
 
@@ -156,52 +157,34 @@ const UserProfileComponent = () => {
                     </div>
                     <div className="profile-right col-sm-7">
                         <div className="profile-right-textbox">
-                            <div className="col-sm-6">First Name</div>
-                            <div style={{ width: "100%" }} >
-                                <input type="text"
-                                    placeholder="Please enter your first name"
-                                    className="input-box rounded"
-                                    value={fname}
-                                    onChange={(e) => setFname(e.target.value)}
-                                />
-                                {
-                                    errorFname === true && (
-                                        <div className="register-error-message">Cannot leave the field empty</div>
-                                    )
-                                }
-                            </div>
+                            <TextField
+                                label="First Name"
+                                value={fname}
+                                onChange={(e) => setFname(e.target.value)}
+                                fullWidth
+                                InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
+                                InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
+                            />
                         </div>
                         <div className="profile-right-textbox">
-                            <div className="col-sm-6">Last Name</div>
-                            <div style={{ width: "100%" }} >
-                                <input type="text"
-                                    placeholder="Please enter your last name"
-                                    className="input-box rounded"
-                                    value={lname}
-                                    onChange={(e) => setLname(e.target.value)}
-                                />
-                                {
-                                    errorLname === true && (
-                                        <div className="register-error-message">Cannot leave the field empty</div>
-                                    )
-                                }
-                            </div>
+                            <TextField
+                                label="Last Name"
+                                value={lname}
+                                onChange={(e) => setLname(e.target.value)}
+                                fullWidth
+                                InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
+                                InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
+                            />
                         </div>
                         <div className="profile-right-textbox">
-                            <div className="col-sm-6">Email</div>
                             <div style={{ width: "100%" }} >
-                                <input type="email"
-                                    placeholder="Please enter your email address"
-                                    className="input-box rounded"
+                                <TextField
+                                    label="Email"
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    disabled
+                                    fullWidth
+                                    InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
+                                    InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
                                 />
-                                {
-                                    errorEmail === true && (
-                                        <div className="register-error-message">Cannot leave the field empty</div>
-                                    )
-                                }
 
                                 {
                                     emailVerified === "0" && (
@@ -214,75 +197,59 @@ const UserProfileComponent = () => {
                             </div>
                         </div>
                         <div className="profile-right-textbox">
-                            <div className="col-sm-6">Province
-                                <span>
-                                    <select
-                                        type="text"
-                                        name="province"
-                                        id="province"
-                                        value={province}
-                                        onChange={(e) => setProvince(e.target.value)}
-                                        style={{ margin: "5px 15px" }}
-                                    >
-                                        <option value="one">Province No. 1</option>
-                                        <option value="two">Province No. 2</option>
-                                        <option value="three">Province No. 3</option>
-                                        <option value="four">Province No. 4</option>
-                                        <option value="five">Province No. 5</option>
-                                        <option value="six">Province No. 6</option>
-                                        <option value="seven">Province No. 7</option>
-                                    </select>
-                                </span>
-                            </div>
+                            <FormControl fullWidth sx={{ borderBottom: "0.5px solid white", color: "white" }}>
+                                <InputLabel id="demo-simple-select-label" sx={{ color: "white", fontSize: 14 }}>Province</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    value={province}
+                                    onChange={(e) => setProvince(e.target.value)}
+                                    label="Province"
+                                    sx={{ color: "white", fontSize: 14 }}
+                                >
+                                    <MenuItem value='one'>Province 1</MenuItem>
+                                    <MenuItem value='two'>Province 2</MenuItem>
+                                    <MenuItem value='three'>Province 3</MenuItem>
+                                    <MenuItem value='four'>Province 4</MenuItem>
+                                    <MenuItem value='five'>Province 5</MenuItem>
+                                    <MenuItem value='six'>Province 6</MenuItem>
+                                    <MenuItem value='seven'>Province 7</MenuItem>
+                                </Select>
+                            </FormControl>
                         </div>
                         <div className="profile-right-textbox">
-                            <div className="col-sm-6">Phone Number</div>
-                            <div style={{ width: "100%" }} >
-                                <input type="number"
-                                    placeholder="Please enter your phone number"
-                                    className="input-box rounded"
-                                    value={contact}
-                                    onChange={(e) => setContact(e.target.value)}
-                                />
-                                {
-                                    errorContact === true && (
-                                        <div className="register-error-message">Cannot leave the field empty</div>
-                                    )
-                                }
-                            </div>
+                            <TextField
+                                label="Phone Number"
+                                value={contact}
+                                onChange={(e) => setContact(e.target.value)}
+                                fullWidth
+                                InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
+                                InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
+                            />
                         </div>
                         <div className="profile-right-textbox">
-                            <div className="col-sm-6">Citizenship Number</div>
-                            <div style={{ width: "100%" }} >
-                                <input type="number"
-                                    placeholder="Please enter your citizenship number"
-                                    className="input-box rounded"
-                                    value={citizennum}
-                                    onChange={(e) => setCitizennum(e.target.value)}
-                                />
-                                {
-                                    errorCitizennum === true && (
-                                        <div className="register-error-message">Cannot leave the field empty</div>
-                                    )
-                                }
-                            </div>
+                            <TextField
+                                label="Citizenship Number"
+                                value={citizennum}
+                                onChange={(e) => setCitizennum(e.target.value)}
+                                fullWidth
+                                InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
+                                InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
+                            />
                         </div>
                         <div className="profile-right-textbox">
-                            <div className="col-sm-6">Gender
-                                <span>
-                                    <select
-                                        type="text"
-                                        name="gender"
-                                        id="gender"
-                                        value={gender}
-                                        onChange={(e) => setGender(e.target.value)}
-                                        style={{ margin: "5px 15px" }}
-                                    >
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
-                                </span>
-                            </div>
+                            <FormControl fullWidth sx={{ borderBottom: "0.5px solid white", color: "white" }}>
+                                <InputLabel id="demo-simple-select-label" sx={{ color: "white", fontSize: 14 }}>Gender</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    value={gender}
+                                    onChange={(e) => setGender(e.target.value)}
+                                    label="Gender"
+                                    sx={{ color: "white", fontSize: 14 }}
+                                >
+                                    <MenuItem value="male">Male</MenuItem>
+                                    <MenuItem value="female">Female</MenuItem>
+                                </Select>
+                            </FormControl>
                         </div>
                         <div className="profile-right-button">
                             <button type='submit' className="btn btn-success" onClick={handleSubmit}>Update</button>

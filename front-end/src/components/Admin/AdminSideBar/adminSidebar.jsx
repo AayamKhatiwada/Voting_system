@@ -1,17 +1,22 @@
+import { useNavigate } from 'react-router-dom';
 import './adminSidebar.css'
 
-const AdminSideBar = ({ setOptions, options }) => {
+const AdminSideBar = () => {
+
+    const currentUrl = window.location.pathname;
+    const navigate = useNavigate();
+
     return (
         <nav className="col-md-2 d-none d-md-block sidebar">
             <div className="sidebar-sticky">
-                <ul className="nav flex-column">
-                    <li className="nav-item">
-                        <div className="nav-link link h4" id='dashboard' onClick={() => setOptions("Dashboard")}>Dashboard</div>
-                    </li>
-                    <li className="nav-item">
-                        <div className="nav-link link h4" id='community' onClick={() => setOptions("Party register")}>Party Register</div>
-                    </li>
-                </ul>
+                <div className="adminsidebar-title adminsidebar-underline-padding">Admin</div>
+                <div className="adminsidebar-options">
+                    <div className={currentUrl === "/admin/" ? "adminsidebar-active nav-link link": "nav-link link"} id='dashboard' onClick={() => navigate("/admin/")}>Dashboard</div>
+                    <div className={currentUrl === "/admin/votes" ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/votes")}>Votes</div>
+                    <div className={currentUrl === "/admin/party" ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/")}>Party</div>
+                    <div className={currentUrl === "/admin/voters" ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/")}>Voters</div>
+                    <div className={currentUrl === "/admin/candidate" ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/")}>Candidate</div>
+                </div>
             </div>
         </nav>
     )

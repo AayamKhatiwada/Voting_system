@@ -259,13 +259,13 @@ const RegisterComponent = () => {
                                 label="Province"
                                 sx={{ color: "white", fontSize: 14 }}
                             >
-                                <MenuItem value='1'>Province 1</MenuItem>
-                                <MenuItem value='2'>Province 2</MenuItem>
-                                <MenuItem value='3'>Province 3</MenuItem>
-                                <MenuItem value='4'>Province 4</MenuItem>
-                                <MenuItem value='5'>Province 5</MenuItem>
-                                <MenuItem value='6'>Province 6</MenuItem>
-                                <MenuItem value='7'>Province 7</MenuItem>
+                                <MenuItem value='one'>Province 1</MenuItem>
+                                <MenuItem value='two'>Province 2</MenuItem>
+                                <MenuItem value='three'>Province 3</MenuItem>
+                                <MenuItem value='four'>Province 4</MenuItem>
+                                <MenuItem value='five'>Province 5</MenuItem>
+                                <MenuItem value='six'>Province 6</MenuItem>
+                                <MenuItem value='seven'>Province 7</MenuItem>
                             </Select>
                         </FormControl>
                     </div>

@@ -15,7 +15,7 @@ const AdminLoginComponent = () => {
     const onSubmit = () => {
         if (admin === "admin" && password === "admin") {
             dispatch(setCurrentAdmin({admin: "admin", password: "admin"}))
-            navigate('/dashboard')
+            navigate('/admin/')
         } else if (admin === "admin") {
             ErrorNoty("Wrong Password")
         } else if (password === "admin") {

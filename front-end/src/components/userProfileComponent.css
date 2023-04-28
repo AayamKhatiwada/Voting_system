@@ -3,8 +3,7 @@
     display: flex;
 }
 
-.profile-right{
-    padding: 2rem;
+.profile-right {
     font-size: 1.6rem;
 }
 
@@ -27,9 +26,7 @@
 }
 
 .profile-right-textbox {
-    display: flex;
-    margin-bottom: 1.5rem;
-    align-items: center;
+    margin-bottom: 2.5rem;
 }
 
 .profile-right-button {
@@ -39,10 +36,6 @@
 .profile-right-button>button {
     padding: 1rem 5rem;
     font-size: 1.8rem;
-}
-
-.profile-right-textbox>div>input{
-    padding: 1rem !important;
 }
 
 .profile-user-image {
@@ -55,4 +48,10 @@
     text-align: center;
     line-height: 38rem;
     object-fit: cover;
+}
+
+.register-error-message {
+    color: red;
+    padding: 1rem 0 0.5rem 0;
+    font-weight: 550;
 }

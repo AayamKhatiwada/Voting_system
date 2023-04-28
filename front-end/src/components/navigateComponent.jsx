@@ -37,14 +37,14 @@ const NavigateComponent = () => {
                             user.length !== 0 &&
                             <>
                                 <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {
                                             (IsEmptyObject(user.image) && user.image !== "[object Object]") ?
                                                 <img src={`http://localhost:5000/uploads/${user.image}`} className="user-image" alt="profile" />
                                                 :
                                                 <div className="user-image">{user.firstName[0]}</div>
                                         }
-                                    </a>
+                                    </div>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <li onClick={() => navigate('/profile')} ><a><h4>View profile</h4></a></li>
                                         <li onClick={logout}><a><h4>Log Out</h4></a></li>
