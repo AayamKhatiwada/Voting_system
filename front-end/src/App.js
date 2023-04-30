@@ -14,9 +14,11 @@ import WithoutAuthOnly from "./Reuseables/withoutAuthOnly";
 import RequireAuth from "./Reuseables/RequireAuth";
 import RequireAdminAuth from "./Reuseables/RequireAdminAuth";
 import AdminSideBar from "./components/Admin/AdminSideBar/adminSidebar";
-import AdminVoters from "./components/Admin/AdminVotes/adminVoters";
+import AdminVoters from "./components/Admin/AdminVoters/adminVoters";
 import AdminParty from "./components/Admin/AdminParty/adminParty";
 import AdminPartyRegister from "./components/Admin/AdminPartyRegister/adminPartyRegister";
+import AdminUserView from "./components/Admin/AdminUserView/adminUserView";
+import AdminCandidate from "./components/Admin/AdminCandidate/adminCandidate";
 
 function App() {
   return (
@@ -55,6 +57,8 @@ function App() {
                   <Route path="/voters" element={<AdminVoters />} />
                   <Route path="/party" element={<AdminParty />} />
                   <Route path="/party/:id" element={<AdminPartyRegister />} />
+                  <Route path="/voters/:id" element={<AdminUserView />} />
+                  <Route path="/candidate" element={<AdminCandidate />} />
                 </Routes>
               </RequireAdminAuth>
             </>

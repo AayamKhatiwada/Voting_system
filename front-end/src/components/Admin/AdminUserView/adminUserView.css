@@ -1,0 +1,13 @@
+.adminUser-main{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.adminUser-cardBody{
+    margin: 4rem 0;
+}
+
+.adminUser-cardBody> *{
+    margin: 1rem 0;
+}
