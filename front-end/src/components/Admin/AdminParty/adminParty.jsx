@@ -7,6 +7,8 @@ import { SuccessNoty } from "../../../Reuseables/notifications";
 const AdminParty = () => {
 
     const [partyData, setPartyData] = useState([])
+    const [updateUseEffect, setUpdateUseEffect] = useState(false)
+
     useEffect(() => {
         const getPartyData = async () => {
             await axios.get("http://localhost:5000/api/party/getPartyData")
@@ -17,14 +19,14 @@ const AdminParty = () => {
                     console.error(error);
                 });
         }
-        partyData.length === 0 && getPartyData()
-    }, [partyData])
+        getPartyData()
+    }, [updateUseEffect])
 
     const deleteParty = async (partyId) => {
         await axios.delete(`http://localhost:5000/api/party/deleteParty/${partyId}`)
             .then((response) => {
                 SuccessNoty(response.data)
-                setPartyData([])
+                setUpdateUseEffect(true)
             }).catch((error) => {
                 console.error(error);
             });

@@ -6,6 +6,8 @@ import { SuccessNoty } from "../../../Reuseables/notifications";
 const AdminVoters = () => {
 
     const [voterData, setVoterData] = useState([])
+    const [updateUseEffect, setUpdateUseEffect] = useState(false)
+
     useEffect(() => {
         const getVoterData = async () => {
             await axios.get("http://localhost:5000/api/user/getAllUserData")
@@ -16,14 +18,14 @@ const AdminVoters = () => {
                     console.error(error);
                 });
         }
-        voterData.length === 0 && getVoterData()
-    }, [voterData])
+        getVoterData()
+    }, [updateUseEffect])
 
     const deleteVoter = async (voterId) => {
         await axios.delete(`http://localhost:5000/api/user/deleteUser/${voterId}`)
             .then((response) => {
                 SuccessNoty(response.data)
-                setVoterData([])
+                setUpdateUseEffect(true)
             }).catch((error) => {
                 console.error(error);
             });
@@ -36,6 +38,7 @@ const AdminVoters = () => {
                     <table className="table">
                         <thead>
                             <tr>
+                                <th>Image</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>

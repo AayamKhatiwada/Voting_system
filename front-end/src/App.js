@@ -19,6 +19,7 @@ import AdminParty from "./components/Admin/AdminParty/adminParty";
 import AdminPartyRegister from "./components/Admin/AdminPartyRegister/adminPartyRegister";
 import AdminUserView from "./components/Admin/AdminUserView/adminUserView";
 import AdminCandidate from "./components/Admin/AdminCandidate/adminCandidate";
+import AdminCandidateRegister from "./components/Admin/AdminCandidateRegister/adminCandidateRegister";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
                   <Route path="/party/:id" element={<AdminPartyRegister />} />
                   <Route path="/voters/:id" element={<AdminUserView />} />
                   <Route path="/candidate" element={<AdminCandidate />} />
+                  <Route path="/candidate/:id" element={<AdminCandidateRegister />} />
                 </Routes>
               </RequireAdminAuth>
             </>
