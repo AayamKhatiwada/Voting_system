@@ -46,7 +46,7 @@ function App() {
             </RequireAuth>
           } />
 
-          <Route path="/vote-party" element={<VoteParty />} />
+          <Route path="/vote" element={<VoteParty />} />
           <Route path="/adminLogin" element={<AdminLogin />} />
           <Route path="/admin/*" element={
             <>

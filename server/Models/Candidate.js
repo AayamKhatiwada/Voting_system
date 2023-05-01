@@ -9,11 +9,15 @@ const CandidateSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    description:{
+    post: {
         type: String,
         required: true,
     },
-    province: {
+    election: {
+        type: String,
+        required: true,
+    },
+    description:{
         type: String,
         required: true,
     },

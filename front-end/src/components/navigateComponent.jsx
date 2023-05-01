@@ -31,7 +31,7 @@ const NavigateComponent = () => {
                     <ul className="nav navbar-nav navbar-buttons">
                         <li><a href="/" className={currentUrl === "/" ? "navbar-active": ""}><h4>Home</h4></a></li>
                         <li><a href="about-us" className={currentUrl === "/about-us" ? "navbar-active" : ''}><h4>About</h4></a></li>
-                        <li><a href="vote-party" className={currentUrl === "/vote-party" ? "navbar-active" : ''}><h4>Vote Party</h4></a></li>
+                        <li><a href="vote" className={currentUrl === "/vote" ? "navbar-active" : ''}><h4>Vote</h4></a></li>
                         <li><a href="contact-us" className={currentUrl === "/contact-us" ? "navbar-active" : ''}><h4>Contact</h4></a></li>
                         {
                             user.length !== 0 &&

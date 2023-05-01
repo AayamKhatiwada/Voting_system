@@ -37,6 +37,48 @@
     font-weight: 100;
 }
 
-.vote-party-button{
+.vote-party-button {
     margin-top: 2rem;
+}
+
+.vote-main-card {
+    display: flex;
+    align-items: center;
+    padding-top: 3rem;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card-img-top {
+    object-fit: cover;
+    text-align: center;
+    margin: 3rem 0;
+    height: 200px;
+}
+
+.vote-title-div {
+    position: absolute;
+    top: 0;
+    width: 400px;
+    height: 200px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    margin-left: 2rem;
+}
+
+.vote-card-title {
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    width: 300px;
+}
+
+.card-img-top:hover>img {
+    filter: blur(2px);
+}
+
+.card-img-top:hover>div>h5 {
+    cursor: pointer;
+    font-size: 43px;
 }
