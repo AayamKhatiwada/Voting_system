@@ -3,12 +3,18 @@ const User = require("../Models/User");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const twilio = require('twilio');
+
+const accountSid = 'AC8af2795f8dc7a09887763f74e948b7ad';
+const authToken = '1085b8e1e1a7cc832428c82043932381';
+const client = twilio(accountSid, authToken);
 
 // Register
-router.post("/register", async(req, res) => {
+router.post("/register", async (req, res) => {
 
     const salt = await bcrypt.genSalt(10); //10 is workfactor which determine how much time is needed to calculate a hash
     const hashedPass = await bcrypt.hash(req.body.password, salt);
+    const verifyNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0')
 
     const userEmail = await User.findOne({ email: req.body.email }) //This code checks if the email provided is already used.
     if (userEmail) {
@@ -38,13 +44,15 @@ router.post("/register", async(req, res) => {
             phoneNumber: req.body.contact,
             citizenNumber: req.body.citizennum,
             gender: req.body.gender,
+            verify_number: verifyNumber,
         });
         // After creating the new user, this code saves the user's data to a database using the save() method. 
         const userData = await newUser.save(); //await keyword is used to wait for the database operation to complete before proceeding.
 
         //calls a function named sendVerifyMail() to send a verification email to the user's email address. 
         sendVerifyMail(req.body.fname, req.body.email, userData._id)
-        res.status(200).json("Register Successful")
+        sendVerifyPhoneNumber(req.body.contact, "Online Voting System security code: " + verifyNumber)
+        res.status(200).json("Register Successful Please verify Email and Phone Number")
     }
     //catch block handles errors that might occur while saving the user's data to the database.
     catch (err) {
@@ -53,7 +61,26 @@ router.post("/register", async(req, res) => {
     }
 })
 
-const sendVerifyMail = async(name, email, user_id) => { // asynchronous function called sendVerifyMail()
+const sendVerifyPhoneNumber = (to, body) => {
+
+    const phoneNumber = '+977' + to;
+    console.log(phoneNumber)
+
+    client.messages
+        .create({
+            body: body,
+            to: phoneNumber,
+            from: '+16205018096',
+        })
+        .then(() => {
+            console.log("SMS sent successfully")
+        })
+        .catch((err) => {
+            console.log(err)
+        });
+}
+
+const sendVerifyMail = async (name, email, user_id) => { // asynchronous function called sendVerifyMail()
     try { //try block is used to handle any errors that might occur while creating the mail transport object.
         const transporter = nodemailer.createTransport({ //nodemailer package is used to create a mail transport object 
             host: 'smtp.gmail.com', //that will be used to send the verification email.
@@ -73,7 +100,7 @@ const sendVerifyMail = async(name, email, user_id) => { // asynchronous function
             html: '<p>Hello ' + name + ',<br/>Please click here to <a href="http://localhost:3000/verify?id=' + user_id + '">Verify</a> your mail</p>'
         }
 
-        transporter.sendMail(mailOptions, function(error, info) {
+        transporter.sendMail(mailOptions, function (error, info) {
             if (error) { ////When the email is sent, the function inside the sendMail() method is called.
                 console.log(error)
             } else {
@@ -87,7 +114,7 @@ const sendVerifyMail = async(name, email, user_id) => { // asynchronous function
 }
 
 // Login
-router.post("/login", async(req, res) => {
+router.post("/login", async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email }) //to find a user in the database with the email address provided in the request body.
         if (!user) {
