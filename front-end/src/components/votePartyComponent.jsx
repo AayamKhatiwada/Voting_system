@@ -8,39 +8,19 @@ import './votePartyComponent.css'
 
 const VotePartyComponent = () => {
 
-    const [partyData, setPartyData] = useState([])
     const user = useSelector(selectCurrentUser)
+    const verified = user.length === 0 ? false : ((user.is_Email_Verified === '1' && user.is_Phone_Number_Verified === "1") ? false : true)
 
-    useEffect(() => {
-        const getPartyData = async () => {
-            await axios.get("http://localhost:5000/api/party/getPartyData")
-                .then((response) => {
-                    console.log(response.data)
-                    setPartyData(response.data)
-                }).catch((error) => {
-                    console.error(error);
-                    ErrorNoty(error.response.data);
-                });
-        }
-        partyData.length === 0 && getPartyData()
-    }, [])
-
-    const voteMe = async (party) => {
-        await axios.get(`http://localhost:5000/api/party/voteParty/${party._id}`)
-            .then((response) => {
-                SuccessNoty(response.data)
-            }).catch((error) => {
-                console.error(error);
-                ErrorNoty(error.response.data);
-            });
-    }
-
-    const CheckLogin = (party) => {
+    const CheckLogin = () => {
         if (user.length === 0) {
             ErrorNoty("Cannot vote without login")
         } else {
-            voteMe(party)
+            console.log("succcess")
         }
+    }
+
+    const verifyUserPage = () => {
+        window.open(`/verify?id=${user._id}`, '_blank');
     }
 
     return (
@@ -48,20 +28,11 @@ const VotePartyComponent = () => {
             <NavigateComponent />
             <div className='container'>
                 <h1>Vote</h1>
-                {/* <div className="vote-party-main">
-                    {
-                        partyData.map((party) => {
-                            return (
-                                <div className="vote-party-card col-sm-3" key={party._id}>
-                                    <img src={`http://localhost:5000/uploads/${party.image}`} width="200px" height="200px" />
-                                    <div className="vote-party-card-name">{party.name}</div>
-                                    <div className="vote-party-card-description">{party.description}</div>
-                                    <button className='btn btn-success vote-party-button' onClick={() => CheckLogin(party)}>Vote Me</button>
-                                </div>
-                            )
-                        })
-                    }
-                </div> */}
+                {
+                    user.length !== 0 && verified && (
+                        <h5 className='vote-party-user-verify'>You are still not verified. Please verify your email and phone number. You can verify from this <span className='user-verify-link' onClick={() => verifyUserPage()}>link</span></h5>
+                    )
+                }
 
                 <div className="vote-main-card">
                     <div className="card card-img-top col-sm-5">

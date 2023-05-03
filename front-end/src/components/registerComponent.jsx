@@ -119,9 +119,9 @@ const RegisterComponent = () => {
                 citizennum,
                 gender,
             }).then((response) => {
-                console.log(response)
-                // SuccessNoty("Register Successful")
-                // navigate('/signIn')
+                // console.log(response)
+                SuccessNoty("Register Successful")
+                navigate('/signIn')
             }).catch((err) => {
                 console.log(err)
                 ErrorNoty(err.response.data)

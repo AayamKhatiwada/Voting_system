@@ -16,6 +16,7 @@ const AdminSideBar = () => {
                     <div className={currentUrl.includes("/admin/party") ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/party")}>Party</div>
                     <div className={currentUrl.includes("/admin/voters") ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/voters")}>Voters</div>
                     <div className={currentUrl.includes("/admin/candidate") ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/candidate")}>Candidate</div>
+                    <div className={currentUrl.includes("/admin/election") ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/election")}>Election</div>
                 </div>
             </div>
         </nav>

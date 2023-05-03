@@ -5,9 +5,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const twilio = require('twilio');
 
-const accountSid = 'AC8af2795f8dc7a09887763f74e948b7ad';
-const authToken = '1085b8e1e1a7cc832428c82043932381';
-const client = twilio(accountSid, authToken);
+const client = twilio(process.env.accountSid, process.env.authToken);
 
 // Register
 router.post("/register", async (req, res) => {
@@ -15,6 +13,7 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10); //10 is workfactor which determine how much time is needed to calculate a hash
     const hashedPass = await bcrypt.hash(req.body.password, salt);
     const verifyNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0')
+    const verifyEmail = Math.floor(Math.random() * 1000000).toString().padStart(6, '0')
 
     const userEmail = await User.findOne({ email: req.body.email }) //This code checks if the email provided is already used.
     if (userEmail) {
@@ -45,13 +44,14 @@ router.post("/register", async (req, res) => {
             citizenNumber: req.body.citizennum,
             gender: req.body.gender,
             verify_number: verifyNumber,
+            verify_email: verifyEmail,
         });
         // After creating the new user, this code saves the user's data to a database using the save() method. 
-        const userData = await newUser.save(); //await keyword is used to wait for the database operation to complete before proceeding.
+        await newUser.save(); //await keyword is used to wait for the database operation to complete before proceeding.
 
         //calls a function named sendVerifyMail() to send a verification email to the user's email address. 
-        sendVerifyMail(req.body.fname, req.body.email, userData._id)
-        sendVerifyPhoneNumber(req.body.contact, "Online Voting System security code: " + verifyNumber)
+        sendVerifyMail(req.body.fname, req.body.email, verifyEmail)
+        sendVerifyPhoneNumber(req.body.contact, "Online Voting System mobile verification code: " + verifyNumber)
         res.status(200).json("Register Successful Please verify Email and Phone Number")
     }
     //catch block handles errors that might occur while saving the user's data to the database.
@@ -80,7 +80,7 @@ const sendVerifyPhoneNumber = (to, body) => {
         });
 }
 
-const sendVerifyMail = async (name, email, user_id) => { // asynchronous function called sendVerifyMail()
+const sendVerifyMail = async (name, email, verifyEmail) => { // asynchronous function called sendVerifyMail()
     try { //try block is used to handle any errors that might occur while creating the mail transport object.
         const transporter = nodemailer.createTransport({ //nodemailer package is used to create a mail transport object 
             host: 'smtp.gmail.com', //that will be used to send the verification email.
@@ -97,7 +97,7 @@ const sendVerifyMail = async (name, email, user_id) => { // asynchronous functio
             from: process.env.EMAIL, //from property specifies the email address of the sender
             to: email, //to property specifies the email address of the recipient
             subject: 'For Verfication mail', //subject property specifies the subject of the email which is "For Verification mail".
-            html: '<p>Hello ' + name + ',<br/>Please click here to <a href="http://localhost:3000/verify?id=' + user_id + '">Verify</a> your mail</p>'
+            html: '<p>Hello ' + name + ',<br/>Online voting system email verification code:' + verifyEmail + '</p>'
         }
 
         transporter.sendMail(mailOptions, function (error, info) {

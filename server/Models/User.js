@@ -51,6 +51,9 @@ const UserSchema = new mongoose.Schema({
     verify_number: {
         type: String,
     },
+    verify_email: {
+        type: String,
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", UserSchema);

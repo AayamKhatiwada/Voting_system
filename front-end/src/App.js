@@ -20,8 +20,35 @@ import AdminPartyRegister from "./components/Admin/AdminPartyRegister/adminParty
 import AdminUserView from "./components/Admin/AdminUserView/adminUserView";
 import AdminCandidate from "./components/Admin/AdminCandidate/adminCandidate";
 import AdminCandidateRegister from "./components/Admin/AdminCandidateRegister/adminCandidateRegister";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { useEffect } from "react";
+import { setCurrentUser } from "./store/user/user-action";
+import AdminElection from "./components/Admin/AdminElection/adminElection";
+import AdminElectionRegister from "./components/Admin/AdminElectionRegister/adminElectionRegister";
 
 function App() {
+
+  const dispatch = useDispatch()
+  const accessToken = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    const getUserData = async () => {
+      axios.get('http://localhost:5000/api/user/getUserData', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+        .then(response => {
+          dispatch(setCurrentUser(response.data));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+    accessToken !== null && getUserData()
+  }, [accessToken, dispatch])
+
   return (
     <>
       <BrowserRouter>
@@ -61,6 +88,8 @@ function App() {
                   <Route path="/voters/:id" element={<AdminUserView />} />
                   <Route path="/candidate" element={<AdminCandidate />} />
                   <Route path="/candidate/:id" element={<AdminCandidateRegister />} />
+                  <Route path="/election" element={<AdminElection />} />
+                  <Route path="/election/:id" element={<AdminElectionRegister />} />
                 </Routes>
               </RequireAdminAuth>
             </>

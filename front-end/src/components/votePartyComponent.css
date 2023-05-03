@@ -82,3 +82,18 @@
     cursor: pointer;
     font-size: 43px;
 }
+
+.vote-party-user-verify{
+    background-color: red;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.user-verify-link{
+    color: blue;
+    cursor: pointer;
+}
+
+.user-verify-link:hover{
+    text-decoration: underline;
+}

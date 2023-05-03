@@ -18,6 +18,8 @@ const AdminDashboardComponent = ({children}) => {
         name = "Party"
     } else if (currentUrl.includes("/admin/candidate")){
         name = "Candidate"
+    } else if (currentUrl.includes("/admin/election")){
+        name = "Election"
     }
 
     const logout = () => {

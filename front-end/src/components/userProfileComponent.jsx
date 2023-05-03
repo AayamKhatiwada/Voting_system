@@ -25,29 +25,13 @@ const UserProfileComponent = () => {
     const [image, setImage] = useState(user.image);
     const [displayImage, setDisplayImage] = useState(null);
     const [emailVerified, setEmailVerified] = useState(user.is_Email_Verified)
+    const [phoneVerified, setPhoneVerified] = useState(user.is_Phone_Number_Verified)
 
     const [errorFname, setErrorFname] = useState(false);
     const [errorLname, setErrorLname] = useState(false);
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorContact, setErrorContact] = useState(false);
     const [errorCitizennum, setErrorCitizennum] = useState(false);
-
-    useEffect(() => {
-        const getUserData = async () => {
-            axios.get('http://localhost:5000/api/user/getUserData', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-                .then(response => {
-                    dispatch(setCurrentUser(response.data));
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        }
-        accessToken !== null && getUserData()
-    }, [accessToken, dispatch])
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -225,6 +209,14 @@ const UserProfileComponent = () => {
                                 InputProps={{ style: { fontSize: 14, color: "white", borderBottom: "0.5px solid white" } }}
                                 InputLabelProps={{ style: { fontSize: 14, color: "white" } }}
                             />
+                            {
+                                phoneVerified === "0" && (
+                                    <>
+                                        <br />
+                                        <div className="register-error-message">Phone Number not verified</div>
+                                    </>
+                                )
+                            }
                         </div>
                         <div className="profile-right-textbox">
                             <TextField

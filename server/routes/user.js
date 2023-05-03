@@ -40,13 +40,48 @@ router.put("/:id", authenticateToken, upload.single('image'), async (req, res) =
 // Verify email
 router.post("/verifyEmail/:id", async (req, res) => {
     try {
-        const email = await User.updateOne({ _id: req.params.id }, { $set: { is_Email_Verified: 1 } })
+        const user = await User.findOne({
+            _id: req.params.id,
+            verify_email: req.body.emailOTP,
+            is_Email_Verified: 0,
+        });
 
-        if (email) {
-            res.status(200).json("Email Verified Successful")
-        } else {
-            res.status(500).json("Email not verified")
+        if (!user) {
+            res.status(400).json("Invalid email OTP or email already verified");
+            return;
         }
+
+        // Update is_Email_Verified field
+        user.is_Email_Verified = 1;
+        await user.save();
+
+        // Return success message
+        res.status(200).json("Email verified successfully");
+    } catch (err) {
+        res.status(500).json(err)
+    }
+});
+
+// Verify phone number
+router.post("/verifyPhone/:id", async (req, res) => {
+    try {
+        const user = await User.findOne({
+            _id: req.params.id,
+            verify_number: req.body.phoneOTP,
+            is_Phone_Number_Verified: 0,
+        });
+
+        if (!user) {
+            res.status(400).json("Invalid phone OTP or Phone number already verified");
+            return;
+        }
+
+        // Update is_Phone_Number_Verified field
+        user.is_Phone_Number_Verified = 1;
+        await user.save();
+
+        // Return success message
+        res.status(200).json("Phone number verified successfully");
     } catch (err) {
         res.status(500).json(err)
     }
