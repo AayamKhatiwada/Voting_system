@@ -1,0 +1,8 @@
+.admin-election-posts{
+    display: flex;
+    align-items: center;
+}
+
+.admin-election-posts>button{
+    margin-left: 2rem;
+}
