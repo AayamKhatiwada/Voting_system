@@ -75,7 +75,8 @@
 }
 
 .card-img-top:hover>img {
-    filter: blur(2px);
+    filter: blur(5px);
+    opacity: 0.4;
 }
 
 .card-img-top:hover>div>h5 {

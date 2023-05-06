@@ -1,15 +1,11 @@
 const mongoose = require("mongoose")
 
-const CandidateSchema = new mongoose.Schema({
-    name: {
+const VoteSchema = new mongoose.Schema({
+    candidate_id: {
         type: String,
         required: true,
     },
     party:{
-        type: String,
-        required: true,
-    },
-    province: {
         type: String,
         required: true,
     },
@@ -21,18 +17,10 @@ const CandidateSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    description:{
-        type: String,
-        required: true,
-    },
-    gender: {
-        type: String,
-        required: true,
-    },
-    image: {
+    user_id: {
         type: String,
         required: true,
     },
 }, { timestamps: true });
 
-module.exports = mongoose.model("Candidate", CandidateSchema);
+module.exports = mongoose.model("Vote", VoteSchema);

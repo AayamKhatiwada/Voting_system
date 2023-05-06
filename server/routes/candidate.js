@@ -24,6 +24,8 @@ router.post("/registerCandidate", upload.single('image'), async (req, res) => {
             gender: req.body.gender,
             province: req.body.province,
             description: req.body.description,
+            post: req.body.post,
+            election: req.body.election,
             image: filename,
         });
 
@@ -44,6 +46,9 @@ router.put("/updateCandidate/:id", upload.single('image'), async (req, res) => {
                 gender: req.body.gender,
                 province: req.body.province,
                 description: req.body.description,
+                post: req.body.post,
+                election: req.body.election,
+                description: req.body.description,
             });
         } else {
             const { filename } = req.file;
@@ -53,6 +58,8 @@ router.put("/updateCandidate/:id", upload.single('image'), async (req, res) => {
                 gender: req.body.gender,
                 province: req.body.province,
                 description: req.body.description,
+                post: req.body.post,
+                election: req.body.election,
                 image: filename,
             });
         }
@@ -72,6 +79,17 @@ router.get("/getCandidate/:id", async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+// get candidate by election
+router.get("/getCandidatesByElection/:name", async (req, res) => {
+    try {
+        const candidates = await Candidate.find({ election: req.params.name });
+        res.status(200).json(candidates);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 
 // delete candidate
 router.delete("/deleteCandidate/:id", async (req, res) => {

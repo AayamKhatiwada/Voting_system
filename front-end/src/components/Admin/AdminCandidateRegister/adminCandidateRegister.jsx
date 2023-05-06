@@ -16,6 +16,10 @@ const AdminCandidateRegister = () => {
     const [province, setProvince] = useState('')
     const [fetchedParty, setFetchedParty] = useState([])
     const [situation, setSituation] = useState("Submit")
+    const [elections, setElections] = useState([])
+    const [choosedElection, setChoosedElection] = useState('')
+    const [posts, setPosts] = useState([])
+    const [choosedPost, setChoosedPost] = useState('')
     const navigate = useNavigate()
 
     const url = window.location.pathname
@@ -25,8 +29,19 @@ const AdminCandidateRegister = () => {
         const fecthData = () => {
             axios.get(`http://localhost:5000/api/party/getPartyData`)
                 .then(response => {
-                    console.log(response.data);
+                    // console.log(response.data);
                     setFetchedParty(response.data)
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
+        const fetchElectionData = () => {
+            axios.get(`http://localhost:5000/api/election/getAllElections`)
+                .then(response => {
+                    // console.log(response.data);
+                    setElections(response.data)
                 })
                 .catch(error => {
                     console.log(error);
@@ -45,6 +60,9 @@ const AdminCandidateRegister = () => {
                     setProvince(response.data.province)
                     setSituation("Update")
                     setCandidateId(response.data._id)
+                    setChoosedElection(response.data.election)
+                    getPostData(response.data.election)
+                    setChoosedPost(response.data.post)
                 })
                 .catch(error => {
                     console.log(error);
@@ -52,10 +70,9 @@ const AdminCandidateRegister = () => {
         }
 
         fecthData()
-        newUrl !== "newRegister" && fecthCandidateData()
-
+        fetchElectionData()
+        newUrl !== "newCandidate" && fecthCandidateData()
     }, [])
-
 
     const submitParty = async (e) => {
         e.preventDefault();
@@ -67,6 +84,8 @@ const AdminCandidateRegister = () => {
         formData.append('party', party);
         formData.append('gender', gender);
         formData.append('province', province);
+        formData.append('post', choosedPost);
+        formData.append('election', choosedElection);
 
         if (candidateId) {
             await axios.put(`http://localhost:5000/api/candidate/updateCandidate/${candidateId}`, formData)
@@ -114,6 +133,16 @@ const AdminCandidateRegister = () => {
         }
     }
 
+    const getPostData = async (electionName) => {
+        axios.get(`http://localhost:5000/api/election/getPostByName/${electionName}`)
+            .then(response => {
+                setPosts(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     return (
         <>
             <AdminDashboardComponent>
@@ -155,6 +184,51 @@ const AdminCandidateRegister = () => {
                         </FormControl>
 
                         <FormControl fullWidth sx={{ borderBottom: "0.5px solid white", color: "white" }}>
+                            <InputLabel id="demo-simple-select-label" sx={{ color: "white", fontSize: 14 }}>Election</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                value={choosedElection}
+                                onChange={(e) => {
+                                    setChoosedElection(e.target.value)
+                                    getPostData(e.target.value)
+                                }}
+                                label="Election"
+                                sx={{ color: "white", fontSize: 14 }}
+                            >
+                                {
+                                    elections.map((election) => {
+                                        return (
+                                            <MenuItem value={election.name} key={election._id}>{election.name}</MenuItem>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </FormControl>
+
+                        {
+                            choosedElection !== "" && (
+                                <FormControl fullWidth sx={{ borderBottom: "0.5px solid white", color: "white" }}>
+                                    <InputLabel id="demo-simple-select-label" sx={{ color: "white", fontSize: 14 }}>Post</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        value={choosedPost}
+                                        onChange={(e) => setChoosedPost(e.target.value)}
+                                        label="Post"
+                                        sx={{ color: "white", fontSize: 14 }}
+                                    >
+                                        {
+                                            posts.map((post) => {
+                                                return (
+                                                    <MenuItem value={post} key={post}>{post}</MenuItem>
+                                                )
+                                            })
+                                        }
+                                    </Select>
+                                </FormControl>
+                            )
+                        }
+
+                        <FormControl fullWidth sx={{ borderBottom: "0.5px solid white", color: "white" }}>
                             <InputLabel id="demo-simple-select-label" sx={{ color: "white", fontSize: 14 }}>Gender</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
@@ -177,13 +251,13 @@ const AdminCandidateRegister = () => {
                                 label="Province"
                                 sx={{ color: "white", fontSize: 14 }}
                             >
-                                <MenuItem value='one'>Province 1</MenuItem>
-                                <MenuItem value='two'>Province 2</MenuItem>
-                                <MenuItem value='three'>Province 3</MenuItem>
-                                <MenuItem value='four'>Province 4</MenuItem>
-                                <MenuItem value='five'>Province 5</MenuItem>
-                                <MenuItem value='six'>Province 6</MenuItem>
-                                <MenuItem value='seven'>Province 7</MenuItem>
+                                <MenuItem value='1'>Province 1</MenuItem>
+                                <MenuItem value='2'>Province 2</MenuItem>
+                                <MenuItem value='3'>Province 3</MenuItem>
+                                <MenuItem value='4'>Province 4</MenuItem>
+                                <MenuItem value='5'>Province 5</MenuItem>
+                                <MenuItem value='6'>Province 6</MenuItem>
+                                <MenuItem value='7'>Province 7</MenuItem>
                             </Select>
                         </FormControl>
 

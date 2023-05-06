@@ -44,6 +44,8 @@ const AdminCandidate = () => {
                             <th>Name</th>
                             <th>Party</th>
                             <th>Description</th>
+                            <th>Election</th>
+                            <th>Post</th>
                             <th>Province</th>
                             <th>Gender</th>
                             <th>Action</th>
@@ -54,11 +56,13 @@ const AdminCandidate = () => {
                             candidateData.map((candidate) => {
                                 return (
                                     <tr key={candidate._id}>
-                                        <td><img src={`http://localhost:5000/uploads/${candidate.image}`} alt="" width="50px" height="50px" style={{ borderRadius: "50%" }} /></td>
+                                        <td><img src={`http://localhost:5000/uploads/${candidate.image}`} alt="" width="50px" height="50px" style={{ borderRadius: "50%", objectFit: "cover" }} /></td>
                                         <td>{candidate.name}</td>
                                         <td>{candidate.party}</td>
                                         <td>{candidate.description}</td>
-                                        <td>{candidate.province}</td>
+                                        <td>{candidate.election}</td>
+                                        <td>{candidate.post}</td>
+                                        <td>Province no. {candidate.province}</td>
                                         <td>{candidate.gender}</td>
                                         <td><a href={`/admin/candidate/${candidate._id}`} className="btn btn-primary">Edit</a> <div onClick={() => deleteCandidate(candidate._id)} className="btn btn-danger">Delete</div></td>
                                     </tr>

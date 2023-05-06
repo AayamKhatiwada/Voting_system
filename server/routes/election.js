@@ -42,6 +42,20 @@ router.get("/getElectionData/:id", async (req, res) => {
     }
 });
 
+// Get post by name
+router.get("/getPostByName/:name", async (req, res) => {
+    try {
+        const election = await Election.findOne({ name: req.params.name });
+
+        if (!election) return res.status(404).json("Election not found");
+        const { posts } = election
+
+        res.status(200).json(posts);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 // Update Party
 router.put("/electionUpdate/:id", upload.single('image'), async (req, res) => {
     try {

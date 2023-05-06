@@ -26,6 +26,7 @@ import { useEffect } from "react";
 import { setCurrentUser } from "./store/user/user-action";
 import AdminElection from "./components/Admin/AdminElection/adminElection";
 import AdminElectionRegister from "./components/Admin/AdminElectionRegister/adminElectionRegister";
+import ElectionForm from "./components/electionForm";
 
 function App() {
 
@@ -74,6 +75,7 @@ function App() {
           } />
 
           <Route path="/vote" element={<VoteParty />} />
+          <Route path="/vote/:id" element={<ElectionForm />} />
           <Route path="/adminLogin" element={<AdminLogin />} />
           <Route path="/admin/*" element={
             <>

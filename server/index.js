@@ -17,6 +17,7 @@ const usersroutes = require("./routes/user");
 const partyroutes = require("./routes/party");
 const candidateroutes = require("./routes/candidate");
 const electionroutes = require("./routes/election");
+const voteroutes = require("./routes/vote");
 
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use("/api/auth", authroutes)
@@ -24,6 +25,7 @@ app.use("/api/user", usersroutes)
 app.use("/api/party", partyroutes)
 app.use("/api/candidate", candidateroutes)
 app.use("/api/election", electionroutes)
+app.use("/api/vote", voteroutes)
 
 app.use(express.static('public'));
 // Get image url
