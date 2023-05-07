@@ -19,4 +19,17 @@ router.post("/registerVote", async (req, res) => {
     }
 });
 
+// get voted user
+router.get("/getVotedUser/:id", async (req, res) => {
+    try {
+        const voters = await Vote.find(
+            { user_id: req.params.id },
+            { election: 1, _id: 0 } // projection
+        );
+        res.status(200).json(voters);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 module.exports = router

@@ -13,6 +13,7 @@ const VotePartyComponent = () => {
     const navigate = useNavigate()
     const verified = user.length === 0 ? false : ((user.is_Email_Verified === '1' && user.is_Phone_Number_Verified === "1") ? false : true)
     const [electionData, setElectionData] = useState([])
+    const [electionCondition, setElectionCondition] = useState([])
 
     useEffect(() => {
         const fecthData = () => {
@@ -20,6 +21,19 @@ const VotePartyComponent = () => {
                 .then(response => {
                     // console.log(response.data);
                     setElectionData(response.data)
+                    user.length !== 0 && getElectionCondition()
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
+        const getElectionCondition = () => {
+            console.log(user._id)
+            axios.get(`http://localhost:5000/api/vote/getVotedUser/${user._id}`)
+                .then(response => {
+                    // console.log(response.data);
+                    setElectionCondition(response.data)
                 })
                 .catch(error => {
                     console.log(error);
@@ -55,11 +69,27 @@ const VotePartyComponent = () => {
                 <div className="vote-main-card">
                     {
                         electionData.map((election) => {
+                            let condition = true
                             return (
                                 <div key={election._id}>
                                     {
                                         election.status === "1" && (
-                                            <div className="card card-img-top col-sm-5" onClick={() => navigate(`/vote/${election._id}`)}>
+                                            <div className="card card-img-top col-sm-5" onClick={() => {
+                                                for (let index = 0; index < electionCondition.length; index++) {
+                                                    if(election.name === electionCondition[index].election){
+                                                        condition = false
+                                                    }
+                                                }
+                                                if(condition === true && user.length !== 0 && user.is_Email_Verified === "1" && user.is_Phone_Number_Verified === "1"){
+                                                    navigate(`/vote/${election._id}`)
+                                                }else if(condition === false){
+                                                    ErrorNoty("You have alreay voted in the election")
+                                                }else if(user.length === 0){
+                                                    ErrorNoty("You are not loged in")
+                                                }else if(user.is_Email_Verified === "0" || user.is_Phone_Number_Verified === "0"){
+                                                    ErrorNoty("Please verify email and phone number before voting")
+                                                }
+                                            }}>
                                                 <img src={`http://localhost:5000/uploads/${election.image}`} alt="Card image cap" width="400px" height="200px" style={{ borderRadius: "20px", objectFit: "cover", opacity: "0.6" }} />
                                                 <div className='vote-title-div'>
                                                     <h5 className="card-title vote-card-title container">{election.name}</h5>
