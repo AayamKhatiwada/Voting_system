@@ -73,6 +73,18 @@ router.get("/getPartyData/:id", async (req, res) => {
     }
 });
 
+// Get party data by ID
+router.get("/getPartyByName/:name", async (req, res) => {
+    try {
+        const party = await Party.find({ name: req.params.name });
+        if (!party) return res.status(404).json({ message: "Party not found" });
+
+        res.status(200).json(party);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 // Delete party by ID
 router.delete("/deleteParty/:id", async (req, res) => {
     try {

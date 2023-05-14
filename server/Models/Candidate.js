@@ -33,6 +33,11 @@ const CandidateSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    vote: {
+        type: Number,
+        required: false,
+        default: 0
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Candidate", CandidateSchema);

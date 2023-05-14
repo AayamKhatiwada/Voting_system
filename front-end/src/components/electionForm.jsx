@@ -16,12 +16,13 @@ const ElectionForm = () => {
     const [electionData, setElectionData] = useState([])
     const [candidateElection, setCandidateElection] = useState([])
     const [choosedCandidate, setChoosedCandidate] = useState([])
+    const [candidateElectionParty, setCandidateElectionParty] = useState([])
 
     useEffect(() => {
         const fecthData = () => {
             axios.get(`http://localhost:5000/api/election/getElectionData/${newUrl}`)
                 .then(response => {
-                    console.log(response.data);
+                    // console.log(response.data);
                     setElectionData(response.data)
                     fetchCandidateData(response.data.name)
                 })
@@ -35,6 +36,25 @@ const ElectionForm = () => {
                 .then(response => {
                     // console.log(response.data);
                     setCandidateElection(response.data)
+                    // console.log(response.data)
+
+                    for (let index = 0; index < response.data.length; index++) {
+                        fetchPartyData(response.data[index].party, index)   
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
+        const fetchPartyData = (name, index) => {
+            axios.get(`http://localhost:5000/api/party/getPartyByName/${name}`)
+                .then(response => {
+                    setCandidateElectionParty(candidateElectionParty => {
+                        const newArray = [...candidateElectionParty];
+                        newArray[index] = response.data[0];
+                        return newArray;
+                      });
                 })
                 .catch(error => {
                     console.log(error);
@@ -63,6 +83,7 @@ const ElectionForm = () => {
                 ErrorNoty(error.response.data);
             });
     }
+    // console.log(candidateElectionParty)
 
     return (
         <>
@@ -80,12 +101,21 @@ const ElectionForm = () => {
                                                 <label htmlFor={post} className="electionForm-label">{post}:</label>
                                                 {
                                                     candidateElection.map((candidate) => {
+
+                                                        var image = ""
+                                                        for (let index = 0; index < candidateElectionParty.length; index++) {
+                                                            if(candidateElectionParty[index]?.name === candidate.party){
+                                                                image = candidateElectionParty[index].image
+                                                            }
+                                                        }
+                                                        console.log(image)
+
                                                         return (
                                                             <div key={candidate._id}>
                                                                 {
                                                                     candidate.post === post && (
                                                                         <div className="electionForm-radio">
-                                                                            <label className="electionForm-label"><input type="radio" name={post} value={candidate.name} onChange={(e) => setChoosedCandidate(candidate)} />{candidate.name} ({candidate.party})</label>
+                                                                            <label className="electionForm-label"><input type="radio" name={post} value={candidate.name} onChange={(e) => setChoosedCandidate(candidate)} /><img src={`http://localhost:5000/uploads/${candidate.image}`} alt="" width="100px" height="100px" style={{borderRadius: "50%", objectFit:"contain"}}/>{candidate.name} from <img src={`http://localhost:5000/uploads/${image}`} alt="" width="100px" height="100px" style={{borderRadius: "50%", objectFit:"contain"}}/> {candidate.party} </label>
                                                                         </div>
                                                                     )
                                                                 }

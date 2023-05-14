@@ -32,4 +32,14 @@ router.get("/getVotedUser/:id", async (req, res) => {
     }
 });
 
+// get candidate by election
+router.get("/getVoteDetail/:name", async (req, res) => {
+    try {
+        const vote = await Vote.find({ election: req.params.name });
+        res.status(200).json(vote);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 module.exports = router
