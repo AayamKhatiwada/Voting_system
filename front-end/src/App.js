@@ -83,7 +83,6 @@ function App() {
               <RequireAdminAuth>
                 <Routes>
                   <Route index element={<AdminDashboard />} />
-                  <Route path="/votes" element={<AdminDashboard />} />
                   <Route path="/voters" element={<AdminVoters />} />
                   <Route path="/party" element={<AdminParty />} />
                   <Route path="/party/:id" element={<AdminPartyRegister />} />

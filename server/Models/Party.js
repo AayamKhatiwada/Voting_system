@@ -14,11 +14,6 @@ const PartySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    vote: {
-        type: Number,
-        required: true,
-        default: 0
-    },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Party", PartySchema);

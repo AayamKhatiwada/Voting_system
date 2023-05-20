@@ -55,6 +55,8 @@ const VotePartyComponent = () => {
         window.open(`/verify?id=${user._id}`, '_blank');
     }
 
+    console.log(electionData)
+
     return (
         <>
             <NavigateComponent />

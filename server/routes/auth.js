@@ -4,6 +4,10 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const twilio = require('twilio');
+const Election = require("../Models/Election");
+const Candidate = require("../Models/Candidate");
+const Party = require("../Models/Party");
+const Vote = require("../Models/Vote");
 
 const client = twilio(process.env.accountSid, process.env.authToken);
 
@@ -139,4 +143,82 @@ router.post("/login", async (req, res) => {
 });
 //the generated JWT is stored in a variable called accessToken, which can be used for authentication
 // and authorization purposes without exposing the user's password.
+
+// Get data count
+router.get("/getDataCount", async (req, res) => {
+    try {
+        const electionCount = await Election.countDocuments();
+        const userCount = await User.countDocuments();
+        const candidateCount = await Candidate.countDocuments();
+        const partyCount = await Party.countDocuments();
+
+        const dataCount = {
+            electionCount,
+            userCount,
+            candidateCount,
+            partyCount
+        };
+
+        res.status(200).json(dataCount);
+    } catch (error) {
+        res.status(500).json(error.message);
+    }
+});
+
+// Read election with associated data
+router.get("/generateReport/:electionName", async (req, res) => {
+    try {
+        const { electionName } = req.params;
+
+        // Find all votes for the specified election
+        const votes = await Vote.find({ election: electionName });
+
+        const electionData = {
+            electionName,
+            parties: [],
+        };
+
+        // Group votes by party
+        const votesByParty = {};
+        for (const vote of votes) {
+            if (!votesByParty[vote.party]) {
+                votesByParty[vote.party] = [];
+            }
+            votesByParty[vote.party].push(vote);
+        }
+
+        // Fetch candidate details and vote counts for each party
+        const partyNames = Object.keys(votesByParty);
+        for (const partyName of partyNames) {
+            const party = await Party.findOne({ name: partyName });
+            const candidates = [];
+
+            const partyVotes = votesByParty[partyName];
+            const processedCandidates = new Set(); // Set to keep track of processed candidates
+
+            for (const vote of partyVotes) {
+                const candidate = await Candidate.findById(vote.candidate_id);
+                const { name, post } = candidate;
+                const candidateKey = `${name}-${post}`; // Generate a unique key for each candidate
+
+                // Check if the candidate with the same name and position has been processed before
+                if (!processedCandidates.has(candidateKey)) {
+                    const voteCount = partyVotes.filter(
+                        (v) => v.candidate_id === vote.candidate_id
+                    ).length;
+
+                    candidates.push({ name, position: post, voteCount });
+                    processedCandidates.add(candidateKey); // Add the candidate key to the set
+                }
+            }
+
+            electionData.parties.push({ partyName, candidates });
+        }
+
+        res.status(200).json(electionData);
+    } catch (error) {
+        res.status(500).json(error.message);
+    }
+});
+
 module.exports = router

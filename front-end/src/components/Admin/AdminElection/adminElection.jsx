@@ -2,6 +2,7 @@ import axios from "axios";
 import AdminDashboardComponent from "../AdminDashboardComponent/adminDashboardComponent";
 import { useEffect, useState } from "react";
 import { SuccessNoty } from "../../../Reuseables/notifications";
+import handleDownloadReport from "../../../Reuseables/CreateReport";
 
 const AdminElection = () => {
 
@@ -43,6 +44,16 @@ const AdminElection = () => {
             });
     }
 
+    const createReport = async (election) => {
+        await axios.get(`http://localhost:5000/api/auth/generateReport/${election.name}`)
+            .then((response) => {
+                console.log(response.data)
+                handleDownloadReport(response.data)
+            }).catch((error) => {
+                console.error(error);
+            });
+    }
+
     return (
         <>
             <AdminDashboardComponent>
@@ -67,7 +78,19 @@ const AdminElection = () => {
                                             <td><img src={`http://localhost:5000/uploads/${election.image}`} alt="" width="50px" height="50px" style={{ borderRadius: "50%", objectFit: "cover" }} /></td>
                                             <td>{election.name}</td>
                                             <td>{election.status === "0" ? "Stopped" : "Running"}</td>
-                                            <td><div className={election.status === "0" ? "btn btn-success" : "btn btn-warning"} onClick={() => changeElectionStatus(election._id, election.status === "0" ? "1" : "0")}>{election.status === "0" ? "Start" : "Stop"}</div> {election.status === "0" && <><a href={`election/${election._id}`} className="btn btn-primary">Edit</a> <div className="btn btn-danger" onClick={() => deleteElection(election._id)}>Delete</div></>}</td>
+                                            <td>
+                                                <div className={election.status === "0" ? "btn btn-success" : "btn btn-warning"} onClick={() => changeElectionStatus(election._id, election.status === "0" ? "1" : "0")}>
+                                                    {election.status === "0" ? "Start" : "Stop"}
+                                                </div>
+                                                &nbsp;
+                                                {election.status === "0" &&
+                                                    <>
+                                                        <a href={`election/${election._id}`} className="btn btn-primary">Edit</a>&nbsp;
+                                                        <div className="btn btn-danger" onClick={() => deleteElection(election._id)}>Delete</div>&nbsp;
+                                                        <div className="btn btn-primary" onClick={() => createReport(election)}>Generate Report</div>
+                                                    </>
+                                                }
+                                            </td>
                                         </tr>
                                     )
                                 })

@@ -67,7 +67,7 @@ router.put("/electionUpdate/:id", upload.single('image'), async (req, res) => {
 
             const election = await Election.findByIdAndUpdate(req.params.id, updatedElection);
 
-            res.status(200).json("Party has been updated successfully");
+            res.status(200).json("Election has been updated successfully");
         } else {
             const { filename } = req.file;
 
@@ -92,7 +92,7 @@ router.delete("/deleteElection/:id", async (req, res) => {
         const election = await Election.findByIdAndDelete(req.params.id);
         if (!election) return res.status(404).json("Election not found");
 
-        res.status(200).json("Party deleted successfully");
+        res.status(200).json("Election deleted successfully");
     } catch (err) {
         res.status(500).json(err);
     }

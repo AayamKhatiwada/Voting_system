@@ -12,7 +12,6 @@ const AdminSideBar = () => {
                 <div className="adminsidebar-title adminsidebar-underline-padding">Admin</div>
                 <div className="adminsidebar-options">
                     <div className={currentUrl === "/admin/" ? "adminsidebar-active nav-link link": "nav-link link"} id='dashboard' onClick={() => navigate("/admin/")}>Dashboard</div>
-                    <div className={currentUrl.includes("/admin/votes") ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/votes")}>Votes</div>
                     <div className={currentUrl.includes("/admin/party") ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/party")}>Party</div>
                     <div className={currentUrl.includes("/admin/voters") ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/voters")}>Voters</div>
                     <div className={currentUrl.includes("/admin/candidate") ? "adminsidebar-active nav-link link": "nav-link link"} id='community' onClick={() => navigate("/admin/candidate")}>Candidate</div>
